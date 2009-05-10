@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /rpc/
+Disallow: /feed/
+Disallow: /admin/
+Disallow: /login/
+Disallow: /logout/
+Disallow: /dashboard/

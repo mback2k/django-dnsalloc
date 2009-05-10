@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block mobile %}
+	<ul id="admin{% if message %}-{{ message|slugify }}{% endif %}" title="Admin" selected="true"{% if message %} onload="alert('{{ message }}');"{% endif %}>
+    <li class="group">{{ offset|add:"1" }} - {{ length|add:offset }}</li>
+    <li><a href="/admin/prune/100/?limit={{ limit }}&amp;offset={{ offset }}" title="Prune deleted">Prune deleted</a></li>
+    {% if offset %}<li><a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limitn }}">Previous page</a></li>{% endif %}
+    {% ifequal length limit %}<li><a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limit }}">Next page</a></li>{% endifequal %}
+    {% for user in users %}
+    <li class="group">{{ user.userid }}</li>
+    {% for service in user.services %}
+    <li><a href="#service_{{ service.key.id }}"><img src="/icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" /> {{ service.hostname }}</a></li>
+    {% endfor %}
+    {% endfor %}
+    <li class="group">{{ offset|add:"1" }} - {{ length|add:offset }}</li>
+    {% if offset %}<li><a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limitn }}">Previous page</a></li>{% endif %}
+    {% ifequal length limit %}<li><a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limit }}">Next page</a></li>{% endifequal %}
+  </ul>
+  
+  {% for user in users %}
+  {% for service in user.services %}
+  <ul id="service_{{ service.key.id }}" title="{{ service.hostname }}">
+    <li class="group">Options</li>
+    <li><a href="#service_results_{{ service.key.id }}">Results</a></li>
+    <li><a href="/admin/switch/{{ service.key.id }}/">{% if service.disabled %}Enable{% else %}Disable{% endif %}</a></li>
+    <li><a href="#delete_service_{{ service.key.id }}">{% if service.deleted %}Purge{% else %}Delete{% endif %}</a></li>
+  </ul>
+
+  <ul id="service_results_{{ service.key.id }}" title="{{ service.hostname }}">
+    {% for result in service.results %}
+    <li style="font-weight: normal;">
+      <em style="color: cornflowerblue;">{{ result.tstamp|localedatetime }}</em><br />
+      <img src="/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
+		  <strong>{{ result.status }}</strong>
+    </li>
+    {% endfor %}
+  </ul>
+  
+  <div id="delete_service_{{ service.key.id }}" title="{{ service.hostname }}" class="panel">
+    <a class="whiteButton" href="/admin/delete/{{ service.key.id }}/">Delete Service</a><br />
+    <a class="grayButton" onclick="history.back();" target="_self">Cancel</a>
+  </div>
+  {% endfor %}
+  {% endfor %}
+{% endblock %}
+
+{% block menu %}
+  <li><a href="/" title="Home">Home</a></li>
+  <li><a href="/dashboard/" title="Dashboard">Dashboard</a></li>
+  {% if root %}<li class="active"><strong>Admin</strong></li>{% endif %}
+  <li><a href="/logout/" title="Logout">Logout</a></li>
+{% endblock %}
+
+{% block content %}
+  <div id="upper">
+    {% if message %}<p class="important"><span class="float_right"><a href="/admin/" title="Close" class="toggle">Close</a></span><span>{{ message }}</span></p>{% else %}
+    {% if service %}
+    <table class="full">
+      <thead>
+        <tr><th scope="col" colspan="3">Status of {{ service.hostname }}:</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Status</th>
+          <th class="right"><a href="/admin/" title="Close" class="toggle">Close</a></th>
+        </tr>
+        {% for result in service.results %}
+        <tr>
+          <td colspan="1">{{ result.tstamp|localedatetime }}</td>
+          <td colspan="2"><img src="/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+  </div>
+  <div id="base">
+    <p class="right">{% if offset %}<a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limitn }}" class="toggle">&laquo; Previous</a> |{% endif %}
+    {{ offset|add:"1" }} - {{ length|add:offset }}
+    {% ifequal length limit %}| <a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limit }}" class="toggle">Next &raquo;</a>{% endifequal %}</p>
+    <table class="full">
+      <tbody>
+        <tr>
+          <th scope="col">Hostname</th>
+          <th scope="col">DNS-O-Matic Username</th>
+          <th scope="col">DNS-O-Matic Service</th>
+          <th scope="col" class="right"><a href="/admin/prune/100/?limit={{ limit }}&amp;offset={{ offset }}" title="Prune deleted" class="toggle">Prune deleted</a></th>
+        </tr>
+        {% for user in users %}
+        <tr>
+          <th class="sub" colspan="4">{{ user.userid }}</th>
+        </tr>
+        {% for service in user.services %}
+        <tr>
+          <td>{{ service.hostname }}</td>
+          <td>{{ service.username }}</td>
+          <td>{{ service.services }}</td>
+          <td><a href="/admin/status/{{ service.key.id }}/?limit={{ limit }}&amp;offset={{ offset }}" title="Status: {{ service.status }}" class="toggle"><img src="/icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" /></a><a href="/admin/switch/{{ service.key.id }}/?limit={{ limit }}&amp;offset={{ offset }}" title="{% if service.disabled %}Enable{% else %}Disable{% endif %}" class="toggle"><img src="/icons/{% if service.disabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if service.disabled %}Enable{% else %}Disable{% endif %}" /></a><a href="/admin/delete/{{ service.key.id }}/?limit={{ limit }}&amp;offset={{ offset }}" title="Delete" class="delete"><img src="/icons/{% if service.deleted %}cross{% else %}delete{% endif %}.png" alt="Delete" /></a></td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="right">{% if offset %}<a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limitn }}" class="toggle">&laquo; Previous</a> |{% endif %}
+    {{ offset|add:"1" }} - {{ length|add:offset }}
+    {% ifequal length limit %}| <a href="/admin/?limit={{ limit }}&amp;offset={{ offset|add:limit }}" class="toggle">Next &raquo;</a>{% endifequal %}</p>
+  </div>
+  <div id="lower"></div>
+{% endblock %}

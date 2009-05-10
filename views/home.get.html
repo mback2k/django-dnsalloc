@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block mobile %}
+  <div class="toolbar">
+    <h1 id="pageTitle"></h1>
+    <a id="backButton" class="button" href="#"></a>
+    {% if user %}
+    <a class="button" href="/logout/" target="_self">Logout</a>
+    {% else %}
+    <a class="button" href="/login/" target="_self">Login</a>
+    {% endif %}
+  </div>
+
+  <ul id="home" title="Home" selected="true">
+    {% if user %}
+    <li class="group">Menu</li>
+    <li><a href="/dashboard/">Dashboard</a></li>
+    {% if root %}
+    <li><a href="/admin/">Admin</a></li>
+    {% endif %}
+    {% endif %}
+    <li class="group">Welcome</li>
+    <li style="font-weight: normal;">
+      <div>
+        This service allows you to populate IP changes to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> through another hostname, e.g. from <a href="http://www.dyndns.org/">DynDNS</a>. Currently the service checks for IP changes every ~5 minutes per entry.
+        <ul>
+          <li>Sign in and add your hostname.</li>
+          <li>Put in your <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> Account information.</li>
+          <li>We'll send updates to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> if the DNS record of your hostname changes.</li>
+        </ul>
+      </div>
+    </li>
+    <li class="group">Statistic</li>
+    {% for result in results %}
+    <li style="font-weight: normal;">
+      <img src="/icons/{% ifequal result.status "good" %}accept{% else %}{% ifequal result.status "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
+      <strong>{{ result.status }}</strong> - {{ result.number }} - <em>{{ result.percent }}%</em>
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block menu %}
+  <li class="active"><strong>Home</strong></li>
+  {% if user %}<li><a href="/dashboard/" title="Dashboard">Dashboard</a></li>{% endif %}
+  {% if root %}<li><a href="/admin/" title="Admin">Admin</a></li>{% endif %}
+  {% if user %}<li><a href="/logout/" title="Logout">Logout</a></li>{% else %}<li><a href="/login/" title="Login">Login</a></li>{% endif %}
+{% endblock %}
+
+{% block content %}
+  <p>This service allows you to populate IP changes to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> through another hostname, e.g. from <a href="http://www.dyndns.org/">DynDNS</a>. Currently the service checks for IP changes every ~5 minutes per entry.</p>
+  <ul>
+    <li>Sign in and add your hostname.</li>
+    <li>Put in your <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> Account information.</li>
+    <li>We'll send updates to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> if the DNS record of your hostname changes.</li>
+  </ul>
+  <table class="full">
+    <thead>
+      <tr><th scope="col" colspan="3">Result statistic of last week, currently watching {{ services }} hostnames</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="col">Result</th>
+        <th scope="col" class="right">Occurrence</th>
+        <th scope="col" class="right">Percentage</th>
+      </tr>
+      {% for result in results %}
+      <tr>
+        <td><img src="/icons/{% ifequal result.status "good" %}accept{% else %}{% ifequal result.status "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+        <td class="right">{{ result.number }}</td>
+        <td class="right">{{ result.percent }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

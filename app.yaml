@@ -1,0 +1,59 @@
+application: dnsalloc
+version: 6
+runtime: python
+api_version: 1
+
+handlers:
+- url: /icons/.*
+  script: $PYTHON_LIB/google/appengine/ext/zipserve
+  secure: optional
+
+- url: /yaml/.*
+  script: $PYTHON_LIB/google/appengine/ext/zipserve
+  secure: optional
+
+- url: /iui/.*
+  script: $PYTHON_LIB/google/appengine/ext/zipserve
+  secure: optional
+
+- url: /console/static
+  static_dir: console/app/view/static
+
+- url: /console.*
+  script: console/app/console.py
+
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload: images/favicon.ico
+  secure: optional
+
+- url: /robots.txt
+  static_files: images/robots.txt
+  upload: images/robots.txt
+  secure: optional
+
+- url: /css
+  static_dir: css
+  secure: optional
+
+- url: /images
+  static_dir: images
+  secure: optional
+
+- url: /rpc/.*
+  script: rpc.py
+  secure: always
+
+- url: /dashboard/.*
+  script: app.py
+  secure: always
+  login: required
+
+- url: /admin/.*
+  script: app.py
+  secure: always
+  login: admin
+
+- url: /.*
+  script: app.py
+  secure: optional
