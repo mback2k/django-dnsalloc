@@ -94,12 +94,18 @@
           <th scope="col">Status</th>
           <th class="right">{% ifequal service.status "waiting" %}<em>Force update</em>{% else %}<a href="/dashboard/force/{{ service.key.id }}/" title="Force update" class="toggle">Force update</a>{% endifequal %} | <a href="/dashboard/" title="Close" class="toggle">Close</a></th>
         </tr>
+        {% if service.results %}
         {% for result in service.results %}
         <tr>
           <td colspan="1">{{ result.tstamp|localedatetime }}</td>
           <td colspan="2"><img src="/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
         </tr>
         {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="3">No results for this week.</td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
     {% endifequal %}
