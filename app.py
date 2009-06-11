@@ -2,7 +2,7 @@ import wsgiref.handlers
 
 from google.appengine.ext import webapp
 from google.appengine.api import users
-from handlers import home, dashboard, admin, feedrss
+from handlers import home, dashboard, admin, log, feedrss
 
 class Login(webapp.RequestHandler):
     def get(self):
@@ -25,6 +25,7 @@ ROUTES = [
     ('/dashboard/', dashboard.Handler),
     ('/admin/([a-z]+)/([0-9]+)/', admin.Handler),
     ('/admin/', admin.Handler),
+    ('/log/', log.Handler),
     ('/login/', Login),
     ('/logout/', Logout)
 ]

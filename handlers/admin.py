@@ -46,8 +46,11 @@ class Handler(webapp.RequestHandler):
             db.delete(Service.all().filter('deleted', True).fetch(int(100)))
             message = 'Pruned deleted services from datastore!'
 
+        limit = self.request.get_range('limit', min_value=20, max_value=200, default=20)
+        offset = self.request.get_range('offset', min_value=0, max_value=1000, default=0)
+
         userdict = {}
-        services = Service.all().order('-userid').fetch(self.request.get_range('limit', min_value=20, max_value=200, default=20), self.request.get_range('offset', min_value=0, max_value=1000, default=0))
+        services = Service.all().order('-userid').fetch(limit, offset)
 
         for x in services:        
             if x.userid in userdict:
@@ -57,9 +60,6 @@ class Handler(webapp.RequestHandler):
                 userdict[x.userid].userid = x.userid.email()
                 userdict[x.userid].uniqueid = x.uniqueid
                 userdict[x.userid].services = [x]
-        
-        limit = self.request.get_range('limit', min_value=20, max_value=200, default=20)
-        offset = self.request.get_range('offset', min_value=0, max_value=1000, default=0)
 
         template_values = {
             'limit': limit,
