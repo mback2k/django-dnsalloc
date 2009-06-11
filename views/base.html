@@ -43,7 +43,7 @@
   {% if mobi %}
   {% block mobile %}{% endblock %}
   {% else %}
-  {% if not user %}
+  {% ifnotequal page 'Dashboard' %}
   <div id="page-top">
     <script type="text/javascript">
       google_ad_client = "pub-3850835421462051";
@@ -53,7 +53,7 @@
     </script>
     <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
   </div>
-  {% endif %}
+  {% endifnotequal %}
   <div id="page_margins">
     <div id="border-top">
       <div id="edge-tl"></div>

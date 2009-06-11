@@ -51,18 +51,14 @@ handlers:
 
 - url: /admin/.*
   script: app.py
-  secure: always
   login: admin
 
 - url: /log/.*
   script: app.py
-  secure: always
   login: admin
 
 - url: /feed/.*
   script: app.py
-  secure: never
 
 - url: /.*
   script: app.py
-  secure: optional

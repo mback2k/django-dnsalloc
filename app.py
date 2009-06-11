@@ -7,7 +7,7 @@ from handlers import home, dashboard, admin, log, feedrss
 class Login(webapp.RequestHandler):
     def get(self):
         if not users.get_current_user():
-            self.redirect(users.create_login_url('https://dnsalloc.appspot.com/'))
+            self.redirect(users.create_login_url('http://dnsalloc.appspot.com/'))
         else:
             self.redirect('/')
 
