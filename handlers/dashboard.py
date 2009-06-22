@@ -1,3 +1,4 @@
+import time
 import urllib
 import hashlib
 import datetime
@@ -76,7 +77,7 @@ class Handler(webapp.RequestHandler):
         if mode == 'status' and id.isdigit():
             service = Service.get_by_id(int(id))
             if service and service.uniqueid == users.get_current_user().user_id() and not service.deleted:
-                pass
+                db.delete(Result.all().filter('tstamp < ', datetime.datetime.fromtimestamp(time.time()-604800)).fetch(1000))
             else:
                 message = 'No such service on your Dashboard!'
                 

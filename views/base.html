@@ -68,6 +68,7 @@
           <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
           <!-- end: skip link navigation -->
           {% if user %}Welcome {{ user.email }}!{% else %}Welcome Guest, please login!{% endif %}
+          {% ifnotequal page 'Dashboard' %}<br /><br /><a href="http://www.piratenpartei.de" target="blank"><img src="http://piratenpartei.de/tmp/images/piratenbanner1.png" alt="Piratenpartei" border="0"/></a>{% endifnotequal %}     
         </div>
         <h3>DNS Allocator - Dynamic IP Broadcast</h3>
         <h4>{{ page }}</h4>

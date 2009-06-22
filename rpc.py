@@ -17,18 +17,16 @@ class RPCService(object):
     @ServiceMethod
     def getServices(self):
         logging.debug("getServices()")
-        
+
         try:
             services_list = {}
             services_query = Service.all().filter('deleted = ', False).filter('disabled = ', False).order('-tstamp')
             services = services_query.fetch(1000)
-    
+
             for service in services:
                 service_data = {'key': str(service.key()), 'status': str(service.status), 'hostname': str(service.hostname), 'ipstr': str(service.ipstr)}
                 services_list[int(service.key().id())] = service_data
-    
-            db.delete(Result.all().filter('tstamp < ', datetime.datetime.fromtimestamp(time.time()-604800)).fetch(1000))
-    
+
             return services_list
         except:
             return {}
