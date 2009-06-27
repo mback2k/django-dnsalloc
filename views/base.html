@@ -85,6 +85,7 @@
       </div>
       <div id="main">
         <a id="content"></a>
+        <p class="warning"><strong>OpenDNS Users:</strong><br /><cite>1. DNS Allocator will not allow you to update your OpenDNS Account<br />2. DNS Allocator is not recommended or supported by OpenDNS<br />- Mike Damm, OpenDNS</cite><br /><br />Thanks OpenDNS, thanks for breaking this service.<br /><br />OpenDNS said that they can't allow updates from other IPs, but it worked for a long time through DNS-O-Matic. On 25th June 2009 they finally prevented updates from different IPs. OpenDNS said that there are security issues, e.g. one user could hijack another users IP address which was not assigned to a network before by assigning it to his own network. But the IP restriction does not really help here, because anyone behind that IP could still hijack the network. And it does not prevent people from keeping wrong and old IPs assigned to their network.<br /><br /><strong>The core service of this website remains intact, just OpenDNS updates are broken.</strong><br />- Marc H&ouml;rsken<br /><br /><a href="http://www.opendns.com/contact/">Contact OpenDNS and tell them what you think about this!</a></p>
         {% block content %}{% endblock %}
       </div>
       <div id="footer">
