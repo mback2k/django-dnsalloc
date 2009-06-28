@@ -18,53 +18,50 @@ class RPCService(object):
     def getServices(self):
         logging.debug("getServices()")
 
-        services_query = Service.all().filter('deleted = ', False).filter('disabled = ', False).order('-tstamp')
-        services_list = {}
-
         try:
-            for service in services_query:
-                services_list[int(service.key().id())] = {'key': str(service.key()), 'status': service.status, 'hostname': service.hostname, 'ipstr': service.ipstr}
-        except:
-            pass
+            services_query = Service.all().filter('deleted = ', False).filter('disabled = ', False).order('-tstamp')
 
-        return services_list
+            return map(lambda x: {'key': str(x.key()), 'status': x.status, 'hostname': x.hostname}, services_query)
+            
+        except:
+            return []
         
     @ServiceMethod
-    def setService(self, service_id, service_data):
-        logging.debug("setService(%s, %s)" % (service_id, service_data))
+    def setService(self, service_data):
+        logging.debug("setService(%s)" % service_data)
         
         try:
-            service = Service.get_by_id(int(service_id))
-            
-            if service and (service_data['key'] == str(service.key())) and (service_data['status'] != service.status):
-                if service_data['status'] != 'dnserr' and service_data['ipstr'] != service.ipstr:
-                
+            service = Service.get(service_data['key'])
+
+            if service_data['status'] != 'dnserr' and service_data['ipstr'] != service.ipstr:
+                service_headers = {'Authorization': 'Basic ' + base64.b64encode(service.username + ':' + service.password)}
+                service_url = 'https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, service_data['ipstr'])
+
+                try:
+                    service_query = urlfetch.fetch(service_url, None, 'GET', service_headers)
                     service.ipstr = service_data['ipstr']
-                    service._headers = {'Authorization': 'Basic ' + base64.b64encode(service.username + ':' + service.password)}
-                    service._url = 'https://updates.dnsomatic.com/nic/update?hostname=' + str(service.services) + '&myip=' + str(service.ipstr)
-    
-                    try:
-                        service._query = urlfetch.fetch(service._url, None, 'GET', service._headers)
-                        service_data['status'] = str(service._query.content)
-                    except:
-                        service.ipstr = ''
-                        service_data['status'] = '!urlfetch'
+                    service_data['status'] = str(service_query.content)
+                except:
+                    service.ipstr = ''
+                    service_data['status'] = '!urlfetch'
 
-                if service_data['status'] == 'nochg':
-                    service.status = 'good ' + service.ipstr
+            if service_data['status'] == 'nochg':
+                service.status = 'good ' + service.ipstr
 
-                elif service_data['status'] != service.status:
-                    memcache.delete(key='feed_'+str(service.key()))
-                    service.status = service_data['status']
-                    result = Result()
-                    result.service = service
-                    result.status = service.status
-                    result.put()
-    
-                service.tstamp = datetime.datetime.now()
-                service.put()
-    
+            if service_data['status'] != service.status:
+                service.status = service_data['status']
+                result = Result()
+                result.service = service
+                result.status = service.status
+                result.put()
+
+            service.tstamp = datetime.datetime.now()
+            service.put()
+
+            memcache.delete(key='feed_'+str(service.key()))
+
             return True
+            
         except:
             return False
 
