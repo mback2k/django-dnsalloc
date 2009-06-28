@@ -18,18 +18,16 @@ class RPCService(object):
     def getServices(self):
         logging.debug("getServices()")
 
+        services_query = Service.all().filter('deleted = ', False).filter('disabled = ', False).order('-tstamp')
+        services_list = {}
+
         try:
-            services_list = {}
-            services_query = Service.all().filter('deleted = ', False).filter('disabled = ', False).order('-tstamp')
-            services = services_query.fetch(1000)
-
-            for service in services:
-                service_data = {'key': str(service.key()), 'status': str(service.status), 'hostname': str(service.hostname), 'ipstr': str(service.ipstr)}
-                services_list[int(service.key().id())] = service_data
-
-            return services_list
+            for service in services_query:
+                services_list[int(service.key().id())] = {'key': str(service.key()), 'status': service.status, 'hostname': service.hostname, 'ipstr': service.ipstr}
         except:
-            return {}
+            pass
+
+        return services_list
         
     @ServiceMethod
     def setService(self, service_id, service_data):
@@ -37,8 +35,10 @@ class RPCService(object):
         
         try:
             service = Service.get_by_id(int(service_id))
+            
             if service and (service_data['key'] == str(service.key())) and (service_data['status'] != service.status):
                 if service_data['status'] != 'dnserr' and service_data['ipstr'] != service.ipstr:
+                
                     service.ipstr = service_data['ipstr']
                     service._headers = {'Authorization': 'Basic ' + base64.b64encode(service.username + ':' + service.password)}
                     service._url = 'https://updates.dnsomatic.com/nic/update?hostname=' + str(service.services) + '&myip=' + str(service.ipstr)
@@ -48,10 +48,11 @@ class RPCService(object):
                         service_data['status'] = str(service._query.content)
                     except:
                         service.ipstr = ''
-                        service_data['status'] = '911'
-    
+                        service_data['status'] = '!urlfetch'
+
                 if service_data['status'] == 'nochg':
                     service.status = 'good ' + service.ipstr
+
                 elif service_data['status'] != service.status:
                     memcache.delete(key='feed_'+str(service.key()))
                     service.status = service_data['status']
