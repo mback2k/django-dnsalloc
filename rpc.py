@@ -8,6 +8,7 @@ from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 from utils.jsonrpc import dumps, ServiceHandler, ServiceMethod, ServiceProxy
 
@@ -55,8 +56,11 @@ class RPCService(object):
                 result.status = service.status
                 result.put()
 
-            service.tstamp = datetime.datetime.now()
-            service.put()
+            try:
+                service.tstamp = datetime.datetime.now()
+                service.put()
+            except CapabilityDisabledError:
+                return False
 
             memcache.delete(key='feed_'+str(service.key()))
 
