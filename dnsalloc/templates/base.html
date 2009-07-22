@@ -1,0 +1,46 @@
+{% extends "base_yaml.html" %}
+
+{% block title %}DNS Allocator - Dynamic IP Broadcast{% endblock %}
+
+{% block extra-head %}
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}slidingdoor-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
+
+  <meta name="generator" content="Google App Engine" />
+  <meta name="language" content="en" />
+  <meta name="distribution" content="global" />
+  <meta name="audience" content="all" />
+  <meta name="robots" content="index, follow, archive" />
+  <meta name="domain" content="DNS Allocator - Dynamic IP Broadcast" />
+  <meta name="author" content="DNS Allocator - Dynamic IP Broadcast" />
+  <meta name="publisher" content="DNS Allocator - Dynamic IP Broadcast" />
+  <meta name="copyright" content="DNS Allocator - Dynamic IP Broadcast" />
+  <meta name="keywords" content="DNS,dynamic,IP,OpenDNS,DNS-O-Matic,DynDNS,NO-IP,update,broadcast" />
+  <meta name="revisit" content="after 1 days" />
+  <meta name="revisit-after" content="1 days" />
+  <meta name="verify-v1" content="0KSH28p2ZTWJMh5p5RFtqPlMAY3wys9TU9eJidnsFsg=" />
+  
+  <script type="text/javascript">
+    window.google_analytics_uacct = "UA-2841986-5";
+  </script>
+{% endblock %}
+
+{% block extra-bottom %}
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    try { var pageTracker = _gat._getTracker("UA-2841986-5");{% if user.is_authenticated %} pageTracker._setVar("{{ user.email }}");{% endif %} pageTracker._trackPageview(); } catch(err) {}
+  </script>
+{% endblock %}
+
+{% block header %}
+  <h3>DNS Allocator</h3>
+  <h4>Dynamic IP Broadcast</h4>
+{% endblock %}
+
+{% block footer %}
+  <div id="footer">
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/">(CC) BY-NC-SA</a> | Developed by <a href="http://www.marc-hoersken.de/" title="Marc H&ouml;rsken">Marc H&ouml;rsken</a> | Layout based on <a href="http://www.yaml.de">YAML</a> | Powered by <a href="http://code.google.com/appengine">Google App Engine</a> | <a href="http://code.google.com/appengine/privacy.html">Privacy Terms</a>
+  </div>
+{% endblock %}

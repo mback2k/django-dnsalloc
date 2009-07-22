@@ -1,0 +1,39 @@
+Version 3.1
+- markup changes: ID's #page_margins and #page are changed into classes for multiple usage within a single layout
+- navigation elements: changed ID's to classes for easier usage, changed classnames for consistency
+- forms support included
+- better standard content styling
+
+- example section rearanged
+- added a small navigation to cycle through all examples
+- new example "styling_content" included
+- new example "building_forms" included
+- new example "flexible grids II" included
+- new example "fullpage 3col" included
+- new example "fullpage grids" included
+- new example "equal_height_boxes" included
+- new example "dynamic_layout_switching" included
+
+- add-on: "right to left" language support included
+- add-on: microformats support included
+
+Core-Files 
+base.css
+- added bugfix for FF rendering of select element
+- added properties for blockquote and q element to reset block  
+- added .equalize class for "equal heights" support
+- .skip, .hide, .print ... removed property "width & height: 1px" to allow bringing content back on screen more easy
+- added dfn element to the hidden elements
+
+iehacks.css
+- added patches for class .equalize ("equal heights" support)
+- added class .no-ie-padding to enable bottom positioning in IE
+- changed z-index fix, so that content in #col3 can be selected again in IE 5.x | 6.0
+
+print_base.css
+- removed font changes for print (unit change to [pt] remains as Gecko-Fix)
+- rearanged user draft print-stylesheets
+- added class .noprint
+
+other Bugfixes
+- nav_shiny_buttons: collapsing horizontal margins fixed

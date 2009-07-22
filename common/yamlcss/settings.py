@@ -1,0 +1,44 @@
+from ragendja.settings_post import settings
+settings.add_app_media('combined-%(LANGUAGE_CODE)s.js',
+    'yamlcss/js/ftod.js',
+   #'yamlcss/js/minmax.js',
+)
+settings.add_app_media('combined-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/core/base.css',
+    'yamlcss/yaml/screen/forms.css',
+    'yamlcss/yaml/add-ons/microformats/microformats.css',
+)
+settings.add_app_media('combined-rtl.css',
+    'yamlcss/yaml/add-ons/rtl-support/core/base-rtl.css',
+)
+settings.add_app_media('combined-print-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/core/print_base.css',
+)
+settings.add_app_media('shinybuttons-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/navigation/nav_shinybuttons.css',
+)
+settings.add_app_media('shinybuttons-rtl.css',
+    'yamlcss/yaml/add-ons/rtl-support/navigation/nav_shinybuttons-rtl.css',
+)
+settings.add_app_media('slidingdoor-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/navigation/nav_slidingdoor.css',
+)
+settings.add_app_media('slidingdoor-rtl.css',
+    'yamlcss/yaml/add-ons/rtl-support/navigation/nav_slidingdoor-rtl.css',
+)
+settings.add_app_media('vlist-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/navigation/nav_vlist.css',
+)
+settings.add_app_media('vlist-rtl.css',
+    'yamlcss/yaml/add-ons/rtl-support/navigation/nav_vlist-rtl.css',
+)
+settings.add_app_media('ie-%(LANGUAGE_DIR)s.css',
+    'yamlcss/yaml/core/iehacks.css',
+    'yamlcss/yaml/patches/patch_nav_vlist.css',
+)
+settings.add_app_media('ie-rtl.css',
+    'yamlcss/yaml/add-ons/rtl-support/core/iehacks-rtl.css',
+)
+settings.add_app_media('debug.css',
+    'yamlcss/yaml/debug/debug.css',
+)

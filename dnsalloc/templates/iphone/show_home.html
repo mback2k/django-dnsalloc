@@ -1,0 +1,38 @@
+{% extends "iphone/base.html" %}
+
+{% block content %}
+  <div class="toolbar">
+    <h1 id="pageTitle"></h1>
+    <a id="backButton" class="button" href="#"></a>
+    {% if not user.is_authenticated %}
+    <a class="button" href="/logout/" target="_self">Logout</a>
+    {% else %}
+    <a class="button" href="/login/" target="_self">Login</a>
+    {% endif %}
+  </div>
+
+  <ul id="home" title="Home" selected="true">
+    {% if user.is_authenticated %}
+    <li class="group">Menu</li>
+    <li><a href="{% url dnsalloc.views.show_dashboard %}" target="_self">Dashboard</a></li>
+    {% endif %}
+    <li class="group">Welcome</li>
+    <li style="font-weight: normal;">
+      <div>
+        This service allows you to populate IP changes to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> through another hostname, e.g. from <a href="http://www.dyndns.org/">DynDNS</a>. Currently the service checks for IP changes every ~5 minutes per entry.
+        <ul>
+          <li>Sign in and add your hostname.</li>
+          <li>Put in your <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> Account information.</li>
+          <li>We'll send updates to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> if the DNS record of your hostname changes.</li>
+        </ul>
+      </div>
+    </li>
+    <li class="group">Statistic</li>
+    {% for result in results %}
+    <li style="font-weight: normal;">
+      <img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.status "good" %}accept{% else %}{% ifequal result.status "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
+      <strong>{{ result.status }}</strong> - {{ result.number }} - <em>{{ result.percent }}%</em>
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

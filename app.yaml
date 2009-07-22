@@ -3,62 +3,33 @@ version: 6
 runtime: python
 api_version: 1
 
+default_expiration: '3650d'
+
 handlers:
-- url: /icons/.*
-  script: $PYTHON_LIB/google/appengine/ext/zipserve
+- url: /dnsalloc-remote-api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  login: admin
   secure: optional
 
-- url: /yaml/.*
-  script: $PYTHON_LIB/google/appengine/ext/zipserve
-  secure: optional
-
-- url: /iui/.*
-  script: $PYTHON_LIB/google/appengine/ext/zipserve
-  secure: optional
-
-- url: /console/static
-  static_dir: console/app/view/static
-
-- url: /console.*
-  script: console/app/console.py
-
-- url: /favicon.ico
-  static_files: images/favicon.ico
-  upload: images/favicon.ico
-  secure: optional
-
-- url: /robots.txt
-  static_files: images/robots.txt
-  upload: images/robots.txt
-  secure: optional
-
-- url: /css
-  static_dir: css
-  secure: optional
-
-- url: /images
-  static_dir: images
-  secure: optional
-
-- url: /rpc/.*
-  script: rpc.py
+- url: /admin/.*
+  script: common/appenginepatch/main.py
+  login: required
   secure: always
 
+- url: /media
+  static_dir: _generated_media
+  secure: optional
+
+- url: /favicon.ico
+  static_files: media/favicon.ico
+  upload: media/favicon.ico
+  secure: optional
+
 - url: /dashboard/.*
-  script: app.py
+  script: common/appenginepatch/main.py
   secure: always
   login: required
 
-- url: /admin/.*
-  script: app.py
-  login: admin
-
-- url: /log/.*
-  script: app.py
-  login: admin
-
-- url: /feed/.*
-  script: app.py
-
 - url: /.*
-  script: app.py
+  script: common/appenginepatch/main.py
+  secure: always

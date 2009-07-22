@@ -1,0 +1,42 @@
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * @copyright       Copyright 2005-2009, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.1
+ * @revision        $Revision: 343 $
+ * @lastmodified    $Date: 2009-01-19 23:41:32 +0100 (Mo, 19. Jan 2009) $
+ */
+
+
+Inhalt des Download-Paketes
+---------------------------
+
+  * documentation/
+    Die Dokumentation steht unter http//www.yaml.de in den Sprachen Deutsch und Englisch als PDF-Datei
+    gesondert zum Download zur Verfügung.
+
+  * examples/
+    Dieses Verzeichnis beinhaltet eine umfangreiche Sammlung von Anwendungsbeispielen für den praktischen Einsatz des
+    Frameworks. Wenn Sie bisher noch nicht mit YAML gearbeitet haben, sollten Sie sich hier erste Anregungen holen.
+
+  * js/
+    Dieses Verzeichnis enthält ein kleines JavaScript-Werkzeug für Blindtexte, sowie die JavaScript-Bibliothek jQuery.
+
+  * tools/
+    In diesem Verzeichnis befinden sich einige Werkzeuge zur Layoutentwicklung. Die hier abgelegten Dateien sind für 
+    die Funktion des Frameworks nicht erforderlich. Sie stellen somit keine festen Bestandteile des YAML-Frameworks dar.
+
+  * yaml/
+    Dieses Verzeichnis beinhaltet alle Dateien des Frameworks. Zur Verwendung kopieren Sie es vollständig auf Ihren
+    Webserver.
+
+
+Zur aktuellen Version 3.1.x
+---------------------------
+
+Eine detaillierte Übersicht aller neuen Funktionen und Änderungen der neuen Version liefert das Changelog (http://www.yaml.de/de/dokumentation/changelog/version-3x.html).
+

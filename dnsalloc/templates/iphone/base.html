@@ -1,0 +1,13 @@
+{% extends "base_iui.html" %}
+
+{% block title %}DNS Allocator{% endblock %}
+
+{% block extra-bottom %}
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    try { var pageTracker = _gat._getTracker("UA-2841986-5");{% if user.is_authenticated %} pageTracker._setVar("{{ user.email }}");{% endif %} pageTracker._trackPageview(); } catch(err) {}
+  </script>
+{% endblock %}
