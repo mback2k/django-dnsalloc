@@ -8,8 +8,8 @@ from ragendja.dbutils import cleanup_relations
 class Service(db.Model):
     user = db.UserProperty()
     userid = db.StringProperty()
-    username = db.StringProperty()
-    password = db.StringProperty(indexed=False)
+    username = db.TextProperty()
+    password = db.TextProperty()
     hostname = db.StringProperty()
     services = db.StringProperty()
     crdate = db.DateTimeProperty(auto_now_add=True)
