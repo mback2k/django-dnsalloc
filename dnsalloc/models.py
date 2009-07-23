@@ -9,7 +9,7 @@ class Service(db.Model):
     user = db.UserProperty()
     userid = db.StringProperty()
     username = db.StringProperty()
-    password = db.StringProperty()
+    password = db.StringProperty(indexed=False)
     hostname = db.StringProperty()
     services = db.StringProperty()
     crdate = db.DateTimeProperty(auto_now_add=True)
