@@ -25,14 +25,8 @@
           <li>Put in your <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> Account information.</li>
           <li>We'll send updates to <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> if the DNS record of your hostname changes.</li>
         </ul>
+        Currently watching {{ services }} hostnames.
       </div>
     </li>
-    <li class="group">Statistic</li>
-    {% for result in results %}
-    <li style="font-weight: normal;">
-      <img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
-      <strong>{{ result.statusimg }}</strong> - {{ result.number }} - <em>{{ result.percent }}%</em>
-    </li>
-    {% endfor %}
   </ul>
 {% endblock %}

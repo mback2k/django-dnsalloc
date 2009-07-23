@@ -12,26 +12,10 @@ from ragendja.dbutils import get_object_or_404
 from iuicss.template import render_to_response
 
 def show_home(request):
-    results = Result.all()
-    count = results.count()
-    userdict = {}
-    
-    for result in results:
-        if result.statusimg in userdict:
-            userdict[result.statusimg].number += 1
-        else:
-            userdict[result.statusimg] = result
-            userdict[result.statusimg].number = 1
-
-    for result in userdict:
-        userdict[result].percent = round(float(float(userdict[result].number)/count)*100, 2)
-
     services = Service.all().filter('enabled = ', True).order('-tstamp').count()
-    results = sorted(userdict.values(), key=lambda x: x.number, reverse=True)
 
     template_values = {
         'services': services,
-        'results': results,
     }
     
     return render_to_response(request, 'dnsalloc/show_home.html', template_values)
