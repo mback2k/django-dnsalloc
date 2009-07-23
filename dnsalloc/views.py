@@ -147,6 +147,7 @@ def delete_item(request, id):
     services = Service.all().filter('userid = ', users.get_current_user().user_id()).order('-tstamp')
     service = get_object_or_404(Service, 'userid = ', users.get_current_user().user_id(), id=int(id))
     service.delete()
+    create_form = ServiceForm()
     message = 'Deleted service from your Dashboard!'
 
     template_values = {
@@ -163,4 +164,5 @@ def feed_status(request, key):
     feedgen = ResultFeed('status', request).get_feed(key)
     response = HttpResponse(mimetype=feedgen.mime_type)
     feedgen.write(response, 'utf-8')
+    
     return response
