@@ -6,6 +6,7 @@ from django.db.models import signals
 from ragendja.dbutils import cleanup_relations
 
 class Service(db.Model):
+    user = db.UserProperty()
     userid = db.StringProperty()
     username = db.StringProperty()
     password = db.StringProperty()

@@ -2,9 +2,9 @@ from django.contrib import admin
 from dnsalloc.models import Service, Result
 
 class ServiceAdmin(admin.ModelAdmin):
-    fields = ('hostname', 'services', 'enabled')
-    list_filter = ('hostname',)
-    list_display = ('hostname', 'enabled')
+    fields = ('user', 'hostname', 'services', 'enabled')
+    list_filter = ('user', 'hostname', 'enabled')
+    list_display = ('user', 'hostname',  'enabled')
     list_editable = ('hostname', 'enabled')
     date_hierarchy = 'crdate'
 

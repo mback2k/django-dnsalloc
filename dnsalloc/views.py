@@ -12,19 +12,19 @@ from ragendja.dbutils import get_object_or_404
 from iuicss.template import render_to_response
 
 def show_home(request):
+    results = Result.all()
+    count = results.count()
     userdict = {}
     
-    for result in Result.all():
-        result.status = result.status.split(' ')[0]
-
-        if result.status in userdict:
-            userdict[result.status].number += 1
+    for result in results:
+        if result.statusimg in userdict:
+            userdict[result.statusimg].number += 1
         else:
-            userdict[result.status] = result
-            userdict[result.status].number = 1
+            userdict[result.statusimg] = result
+            userdict[result.statusimg].number = 1
 
     for result in userdict:
-        userdict[result].percent = round(float(float(userdict[result].number)/len(results))*100, 2)
+        userdict[result].percent = round(float(float(userdict[result].number)/count)*100, 2)
 
     services = Service.all().filter('enabled = ', True).order('-tstamp').count()
     results = sorted(userdict.values(), key=lambda x: x.number, reverse=True)
@@ -58,7 +58,8 @@ def create_item(request):
 
     if create_form.is_valid():
         service = create_form.save(commit=False)
-        service.userid = users.get_current_user().user_id()
+        service.user = users.get_current_user()
+        service.userid = service.user.user_id()
         service.waiting = True
         service.put()
         create_form = None
@@ -99,6 +100,7 @@ def edit_item(request, id):
     
     if edit_form.is_valid():
         service = edit_form.save(commit=False)
+        service.user = users.get_current_user()
         service.waiting = True
         service.put()
         edit_form = None
@@ -142,9 +144,9 @@ def force_item(request, id):
 
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'create_form': None,
         'edit_form': None,
-        'service': None,
+        'service': service,
         'message': message,
     }
 

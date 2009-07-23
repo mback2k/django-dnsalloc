@@ -1,4 +1,5 @@
-$.fn.extend({
+/*
+jQuery.fn.extend({
   htmlToggle: function(html) {
     if (!$.trim($(this).html())) {
       $(this).hide();
@@ -99,3 +100,4 @@ $(document).ready(function() {
     });
   }
 });
+*/

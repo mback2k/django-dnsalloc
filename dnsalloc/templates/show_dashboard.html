@@ -37,7 +37,7 @@
         {% if service.results %}
         {% for result in service.results %}
         <tr>
-          <td colspan="1">{{ result.tstamp|localedatetime }}</td>
+          <td colspan="1">{{ result.crdate|localedatetime }}</td>
           <td colspan="2"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
         </tr>
         {% endfor %}

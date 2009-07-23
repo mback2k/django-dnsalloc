@@ -4,7 +4,7 @@
   <div class="toolbar">
     <h1 id="pageTitle"></h1>
     <a id="backButton" class="button" href="#"></a>
-    {% if not user.is_authenticated %}
+    {% if user.is_authenticated %}
     <a class="button" href="/logout/" target="_self">Logout</a>
     {% else %}
     <a class="button" href="/login/" target="_self">Login</a>
@@ -14,7 +14,7 @@
   <ul id="home" title="Home" selected="true">
     {% if user.is_authenticated %}
     <li class="group">Menu</li>
-    <li><a href="{% url dnsalloc.views.show_dashboard %}" target="_self">Dashboard</a></li>
+    <li><a href="{% url dnsalloc.views.show_dashboard %}">Dashboard</a></li>
     {% endif %}
     <li class="group">Welcome</li>
     <li style="font-weight: normal;">
@@ -30,8 +30,8 @@
     <li class="group">Statistic</li>
     {% for result in results %}
     <li style="font-weight: normal;">
-      <img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.status "good" %}accept{% else %}{% ifequal result.status "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
-      <strong>{{ result.status }}</strong> - {{ result.number }} - <em>{{ result.percent }}%</em>
+      <img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" />
+      <strong>{{ result.statusimg }}</strong> - {{ result.number }} - <em>{{ result.percent }}%</em>
     </li>
     {% endfor %}
   </ul>

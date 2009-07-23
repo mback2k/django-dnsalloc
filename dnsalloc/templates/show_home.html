@@ -26,7 +26,7 @@
       </tr>
       {% for result in results %}
       <tr>
-        <td><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.status "good" %}accept{% else %}{% ifequal result.status "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+        <td><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.statusimg }}</td>
         <td class="right">{{ result.number }}</td>
         <td class="right">{{ result.percent }}%</td>
       </tr>

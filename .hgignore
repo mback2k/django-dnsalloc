@@ -1,4 +1,6 @@
 syntax: glob
 
+.dynamic_media
+_generated_media
 *.pyc
 *~
