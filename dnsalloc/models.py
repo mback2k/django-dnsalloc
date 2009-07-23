@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import datetime
 from google.appengine.ext import db
 from dnsalloc.decorators import cache_property
 from django.db.models import signals
