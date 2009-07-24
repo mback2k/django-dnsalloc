@@ -7,13 +7,13 @@ from jsonrpc.decorators import jsonrpc_function
 
 @jsonrpc_function
 def getServices(offset):
-    logging.debug('getServices(%s)' % (offset))
+    logging.info('getServices(%s)' % (offset))
     
-    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname}, Service.all().filter('enabled = ', True).fetch(25, offset))
+    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname, 'status': x.status}, Service.all().filter('enabled = ', True).fetch(25, offset))
 
 @jsonrpc_function
 def setService(key, status, host):
-    logging.debug('setService(%s, %s, %s)' % (key, status, host))
+    logging.info('setService(%s, %s, %s)' % (key, status, host))
     
     service = Service.get(key)
     if service:
