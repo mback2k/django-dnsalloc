@@ -29,33 +29,10 @@ indexes:
   - name: crdate
     direction: desc
 
-# Used 22 times in query history.
-- kind: dnsalloc_service
-  properties:
-  - name: deleted
-  - name: disabled
-  - name: tstamp
-    direction: desc
-
-# Used 20 times in query history.
-- kind: dnsalloc_service
-  properties:
-  - name: deleted
-  - name: user
-  - name: tstamp
-    direction: desc
-
 # Used 11 times in query history.
 - kind: dnsalloc_service
   properties:
   - name: enabled
-  - name: tstamp
-    direction: desc
-
-# Used 26 times in query history.
-- kind: dnsalloc_service
-  properties:
-  - name: user
   - name: tstamp
     direction: desc
 
