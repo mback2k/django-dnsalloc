@@ -34,7 +34,7 @@ class Service(db.Model):
         
     @cache_property
     def result(self):
-        if not self.waiting:
+        if not self.waiting and self.result_set.count():
             return self.result_set.order('-crdate').get()
         else:
             return Result(service=self, status='waiting')
