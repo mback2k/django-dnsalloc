@@ -1,5 +1,4 @@
 import base64
-import logging
 import datetime
 from google.appengine.ext import db
 from google.appengine.api import urlfetch
@@ -8,8 +7,6 @@ from jsonrpc.decorators import jsonrpc_function
 
 @jsonrpc_function
 def getServices(limit, bookmark=None):
-    logging.info('getServices(%s, %s)' % (limit, bookmark))
-    
     if isinstance(bookmark, basestring):
         bookmark = db.Key(bookmark)
     else:
@@ -19,8 +16,6 @@ def getServices(limit, bookmark=None):
 
 @jsonrpc_function
 def setService(key, status, host):
-    logging.info('setService(%s, %s, %s)' % (key, status, host))
-    
     service = Service.get(key)
     if service:
         if status != service.status and host:
