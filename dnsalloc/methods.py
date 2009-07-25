@@ -28,8 +28,6 @@ def setService(key, status, host):
                 status = urlfetch.fetch('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host), None, 'GET', {'Authorization': 'Basic ' + base64.b64encode('%s:%s' % (service.username, service.password))}).content
             except:
                 return
-        else:
-            status = 'dnserr'
         
         if status != service.status:
             result = Result()
