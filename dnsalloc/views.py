@@ -159,6 +159,23 @@ def delete_item(request, id):
 
     return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
 
+@login_required
+def delete_item_ask(request, id):
+    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
+    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    create_form = ServiceForm()
+    message = 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_item', kwargs={'id': id}))
+
+    template_values = {
+        'services': services,
+        'create_form': create_form,
+        'edit_form': None,
+        'service': None,
+        'message': message,
+    }
+
+    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+
 def feed_status(request, key):
     feedgen = ResultFeed('status', request).get_feed(key)
     response = HttpResponse(mimetype=feedgen.mime_type)

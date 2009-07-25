@@ -10,7 +10,7 @@
 {% block content %}
   <p class="note">The usernames, passwords, or other login information will be available to this application and Google!<br />The information is send through a secure connection and is only used at the time an update is broadcasted.</p>
   <div id="upper">
-    {% if message %}<p class="important"><span class="float_right"><a href="{% url dnsalloc.views.show_dashboard %}" title="Close" class="toggle">Close</a></span><span>{{ message }}</span></p>{% else %}
+    {% if message %}<p class="important"><span class="float_right"><a href="{% url dnsalloc.views.show_dashboard %}" title="Close" class="toggle">Close</a></span><span>{{ message|safe }}</span></p>{% else %}
     {% if service %}
     {% if edit_form %}
     <form action="{% url dnsalloc.views.edit_item edit_form.key.id %}" method="post" class="yform columnar">
@@ -68,7 +68,7 @@
           <td>{{ service.username }}</td>
           <td>{{ service.services }}</td>
           <td><a href="{% url dnsalloc.views.show_item service.key.id %}" title="Status: {{ service.status }}" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" /></a><a href="{% url dnsalloc.views.feed_item service.key.id %}" title="Status Feed"><img src="{{ MEDIA_URL }}dnsalloc/icons/feed.png" alt="Feed" /></a></td>
-          <td><a href="{% url dnsalloc.views.edit_item service.key.id %}" title="Edit" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/pencil.png" alt="Edit" /></a><a href="{% url dnsalloc.views.switch_item service.key.id %}" title="{% if service.disabled %}Enable{% else %}Disable{% endif %}" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url dnsalloc.views.delete_item service.key.id %}" title="Delete" class="delete"><img src="{{ MEDIA_URL }}dnsalloc/icons/delete.png" alt="Delete" /></a></td>
+          <td><a href="{% url dnsalloc.views.edit_item service.key.id %}" title="Edit" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/pencil.png" alt="Edit" /></a><a href="{% url dnsalloc.views.switch_item service.key.id %}" title="{% if service.disabled %}Enable{% else %}Disable{% endif %}" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url dnsalloc.views.delete_item_ask service.key.id %}" title="Delete" class="delete"><img src="{{ MEDIA_URL }}dnsalloc/icons/delete.png" alt="Delete" /></a></td>
         </tr>
         {% endfor %}
       </tbody>
