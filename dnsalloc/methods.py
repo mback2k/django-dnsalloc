@@ -15,7 +15,7 @@ def getServices(limit, bookmark=None):
     else:
         bookmark = db.Key.from_path('\0', '\0')
     
-    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname, 'status': x.status}, Service.all().filter('enabled = ', True).filter('__key__ > ', bookmark).order('__key__').fetch(limit))
+    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname}, Service.all().filter('enabled = ', True).filter('__key__ > ', bookmark).order('__key__').fetch(limit))
 
 @jsonrpc_function
 def setService(key, status, host):
@@ -27,7 +27,7 @@ def setService(key, status, host):
             try:
                 status = urlfetch.fetch('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host), None, 'GET', {'Authorization': 'Basic ' + base64.b64encode('%s:%s' % (service.username, service.password))}).content
             except:
-                status = '!urlfetch'
+                return
         else:
             status = 'dnserr'
         
@@ -37,6 +37,7 @@ def setService(key, status, host):
             result.status = status
             result.put()
 
+        service.enabled = False if status in ['dnserr', 'nohost', 'badauth'] else service.enabled
         service.waiting = False
         service.update = datetime.datetime.now()
         service.put()
