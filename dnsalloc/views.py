@@ -11,7 +11,7 @@ from ragendja.dbutils import get_object_or_404
 from iuicss.template import render_to_response
 
 def show_home(request):
-    services = Service.all().filter('enabled = ', True).order('-tstamp').count()
+    services = Service.all().filter('enabled = ', True).count()
 
     template_values = {
         'services': services,
