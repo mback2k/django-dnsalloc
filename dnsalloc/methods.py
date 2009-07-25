@@ -1,15 +1,21 @@
 import base64
 import logging
 import datetime
+from google.appengine.ext import db
 from google.appengine.api import urlfetch
 from dnsalloc.models import Service, Result
 from jsonrpc.decorators import jsonrpc_function
 
 @jsonrpc_function
-def getServices(offset):
-    logging.info('getServices(%s)' % (offset))
+def getServices(limit, bookmark=None):
+    logging.info('getServices(%s, %s)' % (limit, bookmark))
     
-    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname, 'status': x.status}, Service.all().filter('enabled = ', True).order('-tstamp').fetch(25, offset))
+    if isinstance(bookmark, basestring):
+        bookmark = db.Key(bookmark)
+    else:
+        bookmark = db.Key.from_path('\0', '\0')
+    
+    return map(lambda x: {'key': str(x.key()), 'hostname': x.hostname, 'status': x.status}, Service.all().filter('enabled = ', True).filter('__key__ > ', bookmark).order('__key__').fetch(limit))
 
 @jsonrpc_function
 def setService(key, status, host):
