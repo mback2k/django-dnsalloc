@@ -126,13 +126,17 @@ def get_file_content(handler, cache, **kwargs):
     if path not in cache:
         if isinstance(handler, basestring):
             try:
-                file = codecs.open(path, 'r', 'utf-8')
-                cache[path] = file.read().lstrip(codecs.BOM_UTF8.decode('utf-8')
-                    ).replace('\r\n', '\n').replace('\r', '\n')
+                try:
+                    file = codecs.open(path, 'r', 'utf-8')
+                    cache[path] = file.read().lstrip(codecs.BOM_UTF8.decode('utf-8')
+                        ).replace('\r\n', '\n').replace('\r', '\n')
+                    file.close()
+                except IOError:
+                    cache[path] = ''
+                    logging.warning('File not found %s' % path)
             except:
                 logging.error('Error in %s' % path)
                 raise
-            file.close()
         elif callable(handler):
             cache[path] = handler(**kwargs)
         else:
