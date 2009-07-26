@@ -2,16 +2,7 @@
 from django import forms
 from dnsalloc.models import Service
 
-class LayerModelForm(forms.ModelForm):
-    def as_layer(self):
-        "Returns this form rendered as HTML <div>s."
-        return self._html_output(u'<div class="type-text"><strong class="message">%(errors)s</strong>%(label)s%(field)s%(help_text)s</div>', u'%s', '</div>', u'<em class="hint">%s</em>', False)
-
-    def as_row(self):
-        "Returns this form rendered as HTML <div>s."
-        return self._html_output(u'<div class="row">%(label)s%(field)s</div>', u'%s', '</div>', u'%s', False)
-
-class ServiceForm(LayerModelForm):
+class ServiceForm(forms.ModelForm):
     hostname = forms.RegexField(regex=r'^[\.a-zA-Z0-9]+$', required=True,
         label='Hostname', help_text='Type in the hostname you want to resolve. (e.g. myhost.dyndns.org)')
     username = forms.CharField(required=True,

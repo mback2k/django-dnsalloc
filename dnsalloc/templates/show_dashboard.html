@@ -16,7 +16,7 @@
     <form action="{% url dnsalloc.views.edit_item edit_form.key.id %}" method="post" class="yform columnar">
     <fieldset>
       <legend><img src="{{ MEDIA_URL }}dnsalloc/icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
-      {{ edit_form.as_layer }}
+      {{ edit_form.as_yaml }}
       <div class="type-button">
         <input type="submit" name="submit" value="Save Service" />
         <a href="{% url dnsalloc.views.show_dashboard %}" title="Close" class="toggle"><input type="button" name="close" value="Close" /></a>
@@ -79,7 +79,7 @@
     <form action="{% url dnsalloc.views.create_item %}" method="post" class="yform columnar">
     <fieldset>
       <legend><img src="{{ MEDIA_URL }}dnsalloc/icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
-      {{ create_form.as_layer }}
+      {{ create_form.as_yaml }}
       <div class="type-button">
         <input type="submit" name="submit" value="Add Service" />
       </div>

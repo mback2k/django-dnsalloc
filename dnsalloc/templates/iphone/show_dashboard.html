@@ -40,7 +40,7 @@
   <form id="add_service" title="Add Service" class="panel" action="{% url dnsalloc.views.create_item %}" method="post"{% if create_form %}{% if create_form.is_bound %} selected="true"{% endif %}{% endif %}>
     <h2>Add Service</h2>
     <fieldset>
-      {{ create_form.as_row }}
+      {{ create_form.as_iui }}
     </fieldset>
     <a class="whiteButton" type="submit" href="#">Add Service</a>
   </form>
