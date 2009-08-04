@@ -17,7 +17,7 @@ class ResultFeed(Feed):
         return reverse('dnsalloc.views.show_item', kwargs={'id': obj.key().id()})
 
     def items(self, obj):
-        return Result.all().filter('service = ', obj).fetch(30)
+        return obj.results
 
     def item_link(self, item):
         return '%s#%d' % (reverse('dnsalloc.views.show_item', kwargs={'id': item.service.key().id()}), item.key().id())
