@@ -302,6 +302,8 @@ class FirePythonDjango(FirePythonBase):
         self._start()
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
+        logging.debug("Dispatching '%s %s' to '%s.%s', args=%s, kwargs=%s" % (request.method, request.path, callback.__module__, callback.__name__, callback_args, callback_kwargs))
+
         args = (request, ) + callback_args
         return self._profile_wrap(callback)(*args, **callback_kwargs)
 
