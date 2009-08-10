@@ -4,6 +4,11 @@ from django.utils.simplejson import dumps
 from os.path import getmtime
 import os, codecs, shutil, logging, re
 
+class MediaGeneratorError(Exception):
+    pass
+
+path_re = re.compile(r'/[^/]+/\.\./')
+
 MEDIA_VERSION = unicode(settings.MEDIA_VERSION)
 COMPRESSOR = os.path.join(os.path.dirname(__file__), '.yuicompressor.jar')
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
@@ -82,7 +87,7 @@ def compress_file(path):
         else:
             print 'Failed!'
     except:
-        raise Exception("Failed to execute Java VM. "
+        raise MediaGeneratorError("Failed to execute Java VM. "
             "Please make sure that you have installed Java "
             "and that it's in your PATH.")
 
@@ -98,9 +103,9 @@ def get_file_path(handler, target, media_dirs, **kwargs):
         if handler.__module__.startswith(app + '.') and len(app) > len(owner):
             owner = app
     owner = owner or handler.__module__
-    name = getattr(handler, 'name', handler.__name__ + ext) % kwargs
-    assert '/' not in name
-    return os.path.join(DYNAMIC_MEDIA, '%s-%s' % (owner, name))
+    name = getattr(handler, 'name', handler.__name__ + ext) % dict(kwargs,
+                                                                target=target)
+    return os.path.join(DYNAMIC_MEDIA, '%s/%s' % (owner, name))
 
 def get_css_content(handler, content, **kwargs):
     # Add $MEDIA_URL variable to CSS files
@@ -112,12 +117,18 @@ def get_css_content(handler, content, **kwargs):
     if not isinstance(handler, basestring):
         return content
 
-    # Make relative paths work with MEDIA_URL
-    content = re.sub(r'url\(["\']?([\w\.][^:]*?)["\']?\)', 'url("%s%s/\\1")' % (settings.MEDIA_URL, os.path.dirname(handler % dict(kwargs))), content)
+    def fixurls(path):
+        # Resolve ../ paths
+        path = '%s%s/%s' % (settings.MEDIA_URL,
+                            os.path.dirname(handler % dict(kwargs)),
+                            path.group(1))
+        while path_re.search(path):
+            path = path_re.sub('/', path, 1)
+        return 'url("%s")' % path
 
-    # Resolve ../ paths
-    while re.search(r'(\w*?)/\.\./', content):
-        content = re.sub(r'(\w*?)/\.\./', '', content)
+    # Make relative paths work with MEDIA_URL
+    content = re.sub(r'url\s*\(["\']?([\w\.][^:]*?)["\']?\)',
+                     fixurls, content)
 
     return content
 
@@ -126,22 +137,19 @@ def get_file_content(handler, cache, **kwargs):
     if path not in cache:
         if isinstance(handler, basestring):
             try:
-                try:
-                    file = codecs.open(path, 'r', 'utf-8')
-                    cache[path] = file.read().lstrip(codecs.BOM_UTF8.decode('utf-8')
-                        ).replace('\r\n', '\n').replace('\r', '\n')
-                    file.close()
-                except IOError:
-                    cache[path] = ''
-                    logging.warning('File not found %s' % path)
+                file = codecs.open(path, 'r', 'utf-8')
+                cache[path] = file.read().lstrip(codecs.BOM_UTF8.decode('utf-8')
+                    ).replace('\r\n', '\n').replace('\r', '\n')
             except:
-                logging.error('Error in %s' % path)
-                raise
+                import traceback
+                raise MediaGeneratorError('Error in %s:\n%s\n' %
+                                          (path, traceback.format_exc()))
+            file.close()
         elif callable(handler):
             cache[path] = handler(**kwargs)
         else:
             raise ValueError('Media generator source "%r" not valid!' % handler)
-    # Add $MEDIA_URL variable to CSS files
+    # Rewrite url() paths in CSS files
     ext = os.path.splitext(path)[1]
     if ext == '.css':
         cache[path] = get_css_content(handler, cache[path], **kwargs)
@@ -158,6 +166,9 @@ def update_dynamic_file(handler, cache, **kwargs):
             needs_update = True
         file.close()
     if needs_update:
+        dir = os.path.dirname(path)
+        if not os.path.isdir(dir):
+            os.makedirs(dir)
         file = codecs.open(path, 'w', 'utf-8')
         file.write(content)
         file.close()
@@ -172,8 +183,8 @@ def get_target_content(group, cache, **kwargs):
 
 def get_targets(combine_media=settings.COMBINE_MEDIA, **kwargs):
     """Returns all files that must be combined."""
-    targets = {}
-    for target in combine_media.keys():
+    targets = []
+    for target in sorted(combine_media.keys()):
         group = combine_media[target]
         if '.site_data.js' in group:
             # site_data must always come first because other modules might
@@ -188,10 +199,9 @@ def get_targets(combine_media=settings.COMBINE_MEDIA, **kwargs):
                 data['LANGUAGE_CODE'] = LANGUAGE_CODE
                 filename = target % data
                 data['target'] = filename
-                group.insert(0, lang_data)
-                if filename in targets:
-                    group = targets[filename][2] + group
-                targets[filename] = (filename, data, group)
+                if lang_data not in group:
+                    group.insert(0, lang_data)
+                targets.append((filename, data, group))
         elif '%(LANGUAGE_DIR)s' in target:
             # Generate CSS files for both text directions
             for LANGUAGE_DIR in ('ltr', 'rtl'):
@@ -199,17 +209,13 @@ def get_targets(combine_media=settings.COMBINE_MEDIA, **kwargs):
                 data['LANGUAGE_DIR'] = LANGUAGE_DIR
                 filename = target % data
                 data['target'] = filename
-                if filename in targets:
-                    group = targets[filename][2] + group
-                targets[filename] = (filename, data, group)
+                targets.append((filename, data, group))
         else:
             data = kwargs.copy()
             filename = target % data
             data['target'] = filename
-            if filename in targets:
-                group = targets[filename][2] + group
-            targets[filename] = (filename, data, group)
-    return targets.values()
+            targets.append((filename, data, group))
+    return targets
 
 def get_copy_targets(media_dirs, **kwargs):
     """Returns paths of files that must be copied directly."""
@@ -218,7 +224,7 @@ def get_copy_targets(media_dirs, **kwargs):
     targets = {}
     for app, media_dir in media_dirs.items():
         for root, dirs, files in os.walk(media_dir):
-            for name in dirs:
+            for name in dirs[:]:
                 if name.startswith('.'):
                     dirs.remove(name)
             for file in files:
@@ -241,7 +247,7 @@ def cleanup_dir(dir, paths):
             keep.append(path)
             path = os.path.dirname(path)
     for root, dirs, files in os.walk(dir):
-        for name in dirs:
+        for name in dirs[:]:
             path = os.path.abspath(os.path.join(root, name))
             if path not in keep:
                 shutil.rmtree(path)
