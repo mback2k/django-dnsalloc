@@ -1,16 +1,11 @@
 from django.contrib import admin
 from dnsalloc.models import Service, Result
 
-class ResultInline(admin.TabularInline):
-    model = Result
-
 class ServiceAdmin(admin.ModelAdmin):
     fields = ('user', 'hostname', 'services', 'enabled')
     list_filter = ('user', 'hostname', 'enabled')
-    list_display = ('user', 'hostname',  'enabled')
-    list_editable = ('hostname', 'enabled')
+    list_display = ('user', 'hostname', 'crdate',  'enabled')
     date_hierarchy = 'crdate'
-    inlines = [ResultInline]
 
 class ResultAdmin(admin.ModelAdmin):
     fields = ('service', 'status', 'crdate')
