@@ -220,7 +220,7 @@ class JSONRPCServerMiddleware(object):
                 # In both cases, pass any extra_kwargs as **kwargs.
                 kwargs.update(pattern.default_args)
                 result_str = self._dispatch_rpc_call(pattern._callback_str, request.raw_post_data, args, kwargs)
-                return HttpResponse(result_str)
+                return HttpResponse(result_str, mimetype='application/json-rpc')
 
     def _dispatch_rpc_call(self, module_name, raw_post_data, args, kwargs):
         response_dict = {}
