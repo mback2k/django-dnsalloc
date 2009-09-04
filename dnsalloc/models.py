@@ -2,12 +2,12 @@
 from google.appengine.ext import db
 from dnsalloc.decorators import cache_property
 from dnsalloc.props import CipherProperty
+from django.contrib.auth.models import User
 from django.db.models import signals
 from ragendja.dbutils import cleanup_relations
 
 class Service(db.Model):
-    user = db.UserProperty()
-    userid = db.StringProperty()
+    user = db.ReferenceProperty(User)
     username = CipherProperty(indexed=False)
     password = CipherProperty(indexed=False)
     hostname = db.StringProperty()

@@ -21,7 +21,7 @@ def show_home(request):
 
 @login_required
 def show_dashboard(request):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
     create_form = ServiceForm()
 
     template_values = {
@@ -36,13 +36,12 @@ def show_dashboard(request):
 
 @login_required
 def create_item(request):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
     create_form = ServiceForm(data=request.POST)
 
     if create_form.is_valid():
         service = create_form.save(commit=False)
-        service.user = request.user.user
-        service.userid = service.user.user_id()
+        service.user = request.user
         service.waiting = True
         service.put()
         create_form = None
@@ -59,8 +58,8 @@ def create_item(request):
 
 @login_required
 def show_item(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
 
     db.delete(Result.all(keys_only=True).filter('tstamp < ', datetime.datetime.now()-datetime.timedelta(days=7)).fetch(100))
 
@@ -76,14 +75,14 @@ def show_item(request, id):
 
 @login_required
 def edit_item(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
     edit_form.key = service.key()
     
     if edit_form.is_valid():
         service = edit_form.save(commit=False)
-        service.user = request.user.user
+        service.user = request.user
         service.waiting = True
         service.put()
         edit_form = None
@@ -100,8 +99,8 @@ def edit_item(request, id):
 
 @login_required
 def switch_item(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
     service.enabled = not(service.enabled)
     service.put()
     create_form = ServiceForm()
@@ -119,8 +118,8 @@ def switch_item(request, id):
 
 @login_required
 def force_item(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
     service.waiting = True
     service.put()
     message = 'The service will be updated on next IP check!'
@@ -137,14 +136,14 @@ def force_item(request, id):
 
 @login_required
 def feed_item(request, id):
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
 
     return HttpResponseRedirect(reverse('dnsalloc.views.feed_status', kwargs={'key': str(service.key())}))
 
 @login_required
 def delete_item(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
     service.delete()
     create_form = ServiceForm()
     message = 'Deleted service from your Dashboard!'
@@ -161,8 +160,8 @@ def delete_item(request, id):
 
 @login_required
 def delete_item_ask(request, id):
-    services = Service.all().filter('userid = ', request.user.user.user_id()).order('-tstamp')
-    service = get_object_or_404(Service, 'userid = ', request.user.user.user_id(), id=int(id))
+    services = Service.all().filter('user = ', request.user).order('-tstamp')
+    service = get_object_or_404(Service, 'user = ', request.user, id=int(id))
     create_form = ServiceForm()
     message = 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_item', kwargs={'id': id}))
 

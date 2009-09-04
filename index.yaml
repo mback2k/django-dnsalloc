@@ -39,6 +39,6 @@ indexes:
 # Used 162 times in query history.
 - kind: dnsalloc_service
   properties:
-  - name: userid
+  - name: user
   - name: tstamp
     direction: desc
