@@ -25,11 +25,6 @@ handlers:
   upload: favicon.ico
   secure: optional
 
-- url: /dashboard/.*
-  script: common/appenginepatch/main.py
-  secure: always
-  login: required
-
 - url: /.*
   script: common/appenginepatch/main.py
   secure: always

@@ -35,6 +35,7 @@
           <a class="skip" href="#navigation" title="skip link">Skip to navigation</a><span class="hideme">.</span>
           <a class="skip" href="#content" title="skip link">Skip to content</a><span class="hideme">.</span>
           <!-- end: skip link navigation -->
+          {% block extra-login %}
           <span>
           {% if user.is_authenticated %}
             Welcome, {{ user.email }}! | 
@@ -44,6 +45,7 @@
             <a href="{% url django.contrib.auth.views.login %}" title="Login">Login</a>
           {% endif %}
           </span>
+          {% endblock %}
         </div>
         {% block header %}{% endblock %}
       </div>
