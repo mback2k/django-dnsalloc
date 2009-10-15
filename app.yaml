@@ -2,28 +2,24 @@ application: dnsalloc
 version: 7
 runtime: python
 api_version: 1
-
-default_expiration: '3650d'
+default_expiration: 3650d
 
 handlers:
-- url: /dnsalloc-remote-api
+- url: /_ah/remote/api
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
-  secure: optional
+
+- url: /media
+  static_dir: _generated_media
+
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
 
 - url: /admin/.*
   script: common/appenginepatch/main.py
   login: required
   secure: always
-
-- url: /media
-  static_dir: _generated_media
-  secure: optional
-
-- url: /favicon.ico
-  static_files: favicon.ico
-  upload: favicon.ico
-  secure: optional
 
 - url: /.*
   script: common/appenginepatch/main.py
