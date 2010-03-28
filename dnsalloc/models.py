@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext import db
 from dnsalloc.decorators import cache_property
-from dnsalloc.props import CipherProperty
 from django.contrib.auth.models import User
 from django.db.models import signals
 from ragendja.dbutils import cleanup_relations
 
 class Service(db.Model):
     user = db.ReferenceProperty(User)
-    username = CipherProperty(indexed=False)
-    password = CipherProperty(indexed=False)
+    username = db.StringProperty(indexed=False)
+    password = db.StringProperty(indexed=False)
     hostname = db.StringProperty()
     services = db.StringProperty()
     crdate = db.DateTimeProperty(auto_now_add=True)
