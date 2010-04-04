@@ -7,7 +7,7 @@ from django.contrib.auth.models import DjangoCompatibleUser
 class GoogleUserTraits(DjangoCompatibleUser):
     @classmethod
     def get_djangouser_for_user(cls, user):
-        django_user = cls.get_by_key_name(str(user.user_id()))
+        django_user = cls.all().filter('password = ', str(user.user_id())).get()
         
         if not django_user:
             django_user = cls.create_djangouser_for_user(user)
@@ -25,4 +25,4 @@ class User(GoogleUserTraits):
 
     @classmethod
     def create_djangouser_for_user(cls, user):
-        return cls(key_name=str(user.user_id()), username=user.nickname().split('@', 1)[0], email=user.email())
+        return cls(username=user.nickname().split('@', 1)[0], password=str(user.user_id()), email=user.email())
