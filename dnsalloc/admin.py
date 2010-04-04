@@ -2,13 +2,13 @@ from django.contrib import admin
 from dnsalloc.models import Service, Result
 
 class ServiceAdmin(admin.ModelAdmin):
-    fields = ('user', 'hostname', 'services', 'enabled')
+    fields = ('user_id', 'hostname', 'services', 'crdate', 'enabled')
     list_filter = ('hostname',)
-    list_display = ('user', 'hostname', 'services', 'crdate', 'enabled')
+    list_display = ('hostname', 'services', 'crdate', 'enabled')
     date_hierarchy = 'crdate'
 
 class ResultAdmin(admin.ModelAdmin):
-    fields = ('service', 'status', 'crdate')
+    fields = ('service_id', 'status', 'crdate')
     list_filter = ('status',)
     list_display = ('status', 'crdate')
     date_hierarchy = 'crdate'

@@ -2,11 +2,9 @@
 from google.appengine.ext import db
 from dnsalloc.decorators import cache_property
 from django.contrib.auth.models import User
-from django.db.models import signals
-from ragendja.dbutils import cleanup_relations
 
 class Service(db.Model):
-    user = db.ReferenceProperty(User)
+    user_id = db.IntegerProperty()
     username = db.StringProperty(indexed=False)
     password = db.StringProperty(indexed=False)
     hostname = db.StringProperty()
@@ -29,6 +27,10 @@ class Service(db.Model):
         return self.result.statusimg
         
     @cache_property
+    def result_set(self):
+        return Result.all().filter('service_id = ', self.key().id())
+        
+    @cache_property
     def results(self):
         return self.result_set.order('-crdate').fetch(10)
         
@@ -40,7 +42,7 @@ class Service(db.Model):
             return Result(service=self, status='waiting')
 
 class Result(db.Model):
-    service = db.ReferenceProperty(Service)
+    service_id = db.IntegerProperty()
     status = db.StringProperty()
     crdate = db.DateTimeProperty(auto_now_add=True)
     
@@ -50,5 +52,3 @@ class Result(db.Model):
     @cache_property
     def statusimg(self):
         return self.status.split(' ')[0]
-
-signals.pre_delete.connect(cleanup_relations, sender=Service)

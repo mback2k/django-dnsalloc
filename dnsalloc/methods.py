@@ -26,7 +26,7 @@ def setService(key, status, host):
         
         if status != service.status:
             result = Result()
-            result.service = service
+            result.service_id = service.key().id()
             result.status = status
             result.put()
 
