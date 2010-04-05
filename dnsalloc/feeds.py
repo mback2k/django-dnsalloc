@@ -20,4 +20,7 @@ class ResultFeed(Feed):
         return obj.results
 
     def item_link(self, item):
-        return '%s#%d' % (reverse('dnsalloc.views.show_item', kwargs={'id': item.service.key().id()}), item.key().id())
+        return '%s#%d' % (reverse('dnsalloc.views.show_item', kwargs={'id': item.service_id}), item.key().id())
+
+    def item_pubdate(self, item):
+        return item.crdate
