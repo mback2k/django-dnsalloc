@@ -15,7 +15,7 @@
     {% if edit_form %}
     <form action="{% url dnsalloc.views.edit_item edit_form.id %}" method="post" class="yform columnar">
     <fieldset>
-      <legend><img src="{{ MEDIA_URL }}dnsalloc/icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
+      <legend><img src="{{ STATIC_URL }}icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
       {{ edit_form.as_yaml }}
       <div class="type-button">
         <input type="submit" name="submit" value="Save Service" />
@@ -38,7 +38,7 @@
         {% for result in service.results %}
         <tr>
           <td colspan="1">{{ result.crdate|localedatetime }}</td>
-          <td colspan="2"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+          <td colspan="2"><img src="{{ STATIC_URL }}icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
         </tr>
         {% endfor %}
         {% else %}
@@ -67,8 +67,8 @@
           <td>{{ service.hostname }}</td>
           <td>{{ service.username }}</td>
           <td>{{ service.services }}</td>
-          <td><a href="{% url dnsalloc.views.show_item service.id %}" title="Status: {{ service.status }}" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="Status" /></a><a href="{% url dnsalloc.views.feed_item service.id %}" title="Status Feed"><img src="{{ MEDIA_URL }}dnsalloc/icons/feed.png" alt="Feed" /></a></td>
-          <td><a href="{% url dnsalloc.views.edit_item service.id %}" title="Edit" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/pencil.png" alt="Edit" /></a><a href="{% url dnsalloc.views.switch_item service.id %}" title="{% if service.disabled %}Enable{% else %}Disable{% endif %}" class="toggle"><img src="{{ MEDIA_URL }}dnsalloc/icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url dnsalloc.views.delete_item_ask service.id %}" title="Delete" class="delete"><img src="{{ MEDIA_URL }}dnsalloc/icons/delete.png" alt="Delete" /></a></td>
+          <td><a href="{% url dnsalloc.views.show_item service.id %}" title="Status: {{ service.status }}" class="toggle"><img src="{{ STATIC_URL }}icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="Status" /></a><a href="{% url dnsalloc.views.feed_item service.id %}" title="Status Feed"><img src="{{ STATIC_URL }}icons/feed.png" alt="Feed" /></a></td>
+          <td><a href="{% url dnsalloc.views.edit_item service.id %}" title="Edit" class="toggle"><img src="{{ STATIC_URL }}icons/pencil.png" alt="Edit" /></a><a href="{% url dnsalloc.views.switch_item service.id %}" title="{% if service.disabled %}Enable{% else %}Disable{% endif %}" class="toggle"><img src="{{ STATIC_URL }}icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url dnsalloc.views.delete_item_ask service.id %}" title="Delete" class="delete"><img src="{{ STATIC_URL }}icons/delete.png" alt="Delete" /></a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -78,7 +78,7 @@
     {% if create_form %}
     <form action="{% url dnsalloc.views.create_item %}" method="post" class="yform columnar">
     <fieldset>
-      <legend><img src="{{ MEDIA_URL }}dnsalloc/icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
+      <legend><img src="{{ STATIC_URL }}icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
       {{ create_form.as_yaml }}
       <div class="type-button">
         <input type="submit" name="submit" value="Add Service" />

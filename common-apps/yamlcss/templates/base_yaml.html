@@ -3,22 +3,23 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>{% block title %}{% endblock %}</title>
-  
   {% block css %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}combined-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
-  <link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}combined-print-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/core/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/screen/forms.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/add-ons/microformats/microformats.css" />
+  {% if LANGUAGE_BIDI %}
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/add-ons/rtl-support/core/base-rtl.css" />
+  {% endif %}
+  <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}yaml/core/print_base.css" />
   <!--[if IE]>
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}ie-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css">
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/core/iehacks.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/patches/patch_nav_vlist.css" />
+  {% if LANGUAGE_BIDI %}
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/add-ons/rtl-support/core/iehacks-rtl.css" />
+  {% endif %}
   <![endif]-->
   {% endblock %}
-
-  {% block js %}
-  <script type="text/javascript" src="{{ MEDIA_URL }}combined-{{ LANGUAGE_CODE }}.js"></script>
-  <!--[if IE]>
-    <script type="text/javascript" src="{{ MEDIA_URL }}ie.js"></script>
-  <![endif]-->
-  {% endblock %}
-
+  {% block js %}{% endblock %}
   {% block extra-head %}{% endblock %}
 </head>
 <body>
@@ -31,10 +32,8 @@
     <div id="page">
       <div id="header">
         <div id="topnav">
-          <!-- start: skip link navigation -->
           <a class="skip" href="#navigation" title="skip link">Skip to navigation</a><span class="hideme">.</span>
           <a class="skip" href="#content" title="skip link">Skip to content</a><span class="hideme">.</span>
-          <!-- end: skip link navigation -->
           {% block extra-login %}
           <span>
           {% if user.is_authenticated %}
@@ -49,13 +48,10 @@
         </div>
         {% block header %}{% endblock %}
       </div>
-      <!-- begin: main navigation #nav -->
       <div id="nav">
-        <!-- skip anchor: navigation -->
         <a id="navigation"></a>
         {% block navigation %}{% endblock %}
       </div>
-
       <div id="main">
         <a id="content"></a>
         {% block content-header %}
@@ -69,7 +65,6 @@
         {% endblock %}
         {% block content %}{% endblock %}
       </div>
-
       {% block footer %}
       <div id="footer">Layout based on <a href="http://www.yaml.de/">YAML</a></div>
       {% endblock %}
