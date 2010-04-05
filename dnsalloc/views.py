@@ -76,7 +76,7 @@ def edit_item(request, id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
     service = get_object_or_404(Service, user=request.user, id=id)
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
-    edit_form.key = service.key()
+    edit_form.id = service.id
     
     if edit_form.is_valid():
         service = edit_form.save(commit=False)
