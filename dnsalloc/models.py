@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
-from google.appengine.ext import db
-from dnsalloc.decorators import cache_property
+from django.db import models
+from django.core.cache import cache
 from django.contrib.auth.models import User
+from dnsalloc.decorators import cache_property
+from django.utils.translation import ugettext_lazy as _
 
-class Service(db.Model):
-    user_id = db.IntegerProperty()
-    username = db.StringProperty(indexed=False)
-    password = db.StringProperty(indexed=False)
-    hostname = db.StringProperty()
-    services = db.StringProperty()
-    crdate = db.DateTimeProperty(auto_now_add=True)
-    tstamp = db.DateTimeProperty(auto_now=True)
-    update = db.DateTimeProperty()
-    enabled = db.BooleanProperty(default=True)
-    waiting = db.BooleanProperty(default=True)
+class Service(models.Model):
+    user = models.ForeignKey(User)
+    username = models.CharField(_('username'), max_length=30, blank=True, null=True, db_index=False)
+    password = models.CharField(_('password'), max_length=30, blank=True, null=True, db_index=False)
+    hostname = models.CharField(_('hostname'), max_length=100)
+    services = models.CharField(_('services'), max_length=100, blank=True, null=True)
+    crdate = models.DateTimeField(_('date created'), auto_now_add=True)
+    tstamp = models.DateTimeField(_('date edited'), auto_now=True)
+    update = models.DateTimeField(_('date updated'), blank=True, null=True)
+    enabled = models.BooleanField(_('enabled'), default=True)
+    waiting = models.BooleanField(_('waiting'), default=True)
     
-    def __repr__(self):
+    def __unicode__(self):
         return self.hostname
         
     @cache_property
@@ -27,26 +29,22 @@ class Service(db.Model):
         return self.result.statusimg
         
     @cache_property
-    def result_set(self):
-        return Result.all().filter('service_id = ', self.key().id())
-        
-    @cache_property
     def results(self):
-        return self.result_set.order('-crdate').fetch(10)
+        return self.result_set.order_by('-crdate')
         
     @cache_property
     def result(self):
         if not self.waiting and self.result_set.count():
-            return self.result_set.order('-crdate').get()
+            return self.result_set.latest('crdate')
         else:
             return Result(service=self, status='waiting')
 
-class Result(db.Model):
-    service_id = db.IntegerProperty()
-    status = db.StringProperty()
-    crdate = db.DateTimeProperty(auto_now_add=True)
+class Result(models.Model):
+    service = models.ForeignKey(Service)
+    status = models.CharField(_('status'), max_length=100)
+    crdate = models.DateTimeField(_('date created'), auto_now_add=True)
     
-    def __repr__(self):
+    def __unicode__(self):
         return self.status
         
     @cache_property

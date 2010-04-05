@@ -1,29 +1,23 @@
 application: dnsalloc
-version: 7
+version: 8
 runtime: python
 api_version: 1
 default_expiration: 3650d
 
 handlers:
-- url: /_ah/remote/api
+- url: /remote_api
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
 
-- url: /media
-  static_dir: _generated_media
+- url: /_ah/queue/deferred
+  script: common-apps/djangoappengine/deferred/handler.py
+  login: admin
 
-- url: /favicon.ico
-  static_files: favicon.ico
-  upload: favicon.ico
-
-- url: /admin/.*
-  script: common/appenginepatch/main.py
-  login: required
-  secure: always
+- url: /media/admin
+  static_dir: common-apps/django/contrib/admin/media
 
 - url: /.*
-  script: common/appenginepatch/main.py
-  secure: always
+  script: common-apps/djangoappengine/main/main.py
 
 skip_files:
 - ^(.*/)?app\.yaml
@@ -33,4 +27,3 @@ skip_files:
 - ^(.*/)?.*~
 - ^(.*/)?.*\.py[co]
 - ^(.*/)?\..*
-- ^(.*/)?media/.*
