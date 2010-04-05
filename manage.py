@@ -1,18 +1,16 @@
 #!/usr/bin/env python
-if __name__ == '__main__':
-    from common.appenginepatch.aecmd import setup_env
-    setup_env(manage_py_env=True)
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), 'common-apps'))
+from djangoappengine.boot import setup_env
+setup_env()
 
-    # Recompile translation files
-    from mediautils.compilemessages import updatemessages
-    updatemessages()
-
-    # Generate compressed media files for manage.py update
+from django.core.management import execute_manager
+try:
+    import settings # Assumed to be in the same directory.
+except ImportError:
     import sys
-    from mediautils.generatemedia import updatemedia
-    if len(sys.argv) >= 2 and sys.argv[1] == 'update':
-        updatemedia(True)
+    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" % __file__)
+    sys.exit(1)
 
-    import settings
-    from django.core.management import execute_manager
+if __name__ == "__main__":
     execute_manager(settings)

@@ -12,9 +12,4 @@ urlpatterns = patterns('dnsalloc.views',
     (r'^dashboard/feed/(?P<id>\d+)/$', 'feed_item'),
     (r'^dashboard/delete/(?P<id>\d+)/$', 'delete_item'),
     (r'^dashboard/delete/(?P<id>\d+)/ask/$', 'delete_item_ask'),
-    (r'^feed/status/(?P<key>.+)/$', 'feed_status'),
-)
-
-jsonrpc_urlpatterns = patterns('dnsalloc',
-    (r'^rpc/$', 'methods'),
 )

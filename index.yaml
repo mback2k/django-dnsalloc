@@ -10,21 +10,28 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 14 times in query history.
+- kind: django_admin_log
+  properties:
+  - name: user_id
+  - name: action_time
+    direction: desc
+
 - kind: dnsalloc_result
   properties:
   - name: service_id
   - name: crdate
     direction: desc
 
-# Used 11 times in query history.
 - kind: dnsalloc_service
   properties:
   - name: enabled
   - name: __key__
-    direction: asc
 
-# Used 162 times in query history.
+- kind: dnsalloc_service
+  properties:
+  - name: enabled
+  - name: crdate
+
 - kind: dnsalloc_service
   properties:
   - name: user_id

@@ -6,22 +6,21 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from dnsalloc.forms import ServiceForm
 from dnsalloc.feeds import ResultFeed
 from dnsalloc.models import Service, Result
-from ragendja.template import render_to_response
-from ragendja.dbutils import get_object_or_404
-from iuicss.template import render_to_response
+from django.template import RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
 
 def show_home(request):
-    services = Service.all().filter('enabled = ', True).count()
+    services = Service.objects.all().filter(enabled=True).count()
 
     template_values = {
         'services': services,
     }
     
-    return render_to_response(request, 'dnsalloc/show_home.html', template_values)
+    return render_to_response('show_home.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def show_dashboard(request):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
     create_form = ServiceForm()
 
     template_values = {
@@ -32,18 +31,17 @@ def show_dashboard(request):
         'message': None,
     }
 
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def create_item(request):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
     create_form = ServiceForm(data=request.POST)
 
     if create_form.is_valid():
         service = create_form.save(commit=False)
-        service.user_id = request.user.key().id()
-        service.waiting = True
-        service.put()
+        service.user = request.user
+        service.save()
         create_form = None
 
     template_values = {
@@ -54,14 +52,14 @@ def create_item(request):
         'message': None,
     }
     
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def show_item(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
 
-    db.delete(Result.all(keys_only=True).filter('crdate < ', datetime.datetime.now()-datetime.timedelta(days=7)).fetch(100))
+    Result.objects.all().filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
 
     template_values = {
         'services': services,
@@ -71,20 +69,20 @@ def show_item(request, id):
         'message': None,
     }
     
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def edit_item(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
     edit_form.key = service.key()
     
     if edit_form.is_valid():
         service = edit_form.save(commit=False)
-        service.user_id = request.user.key().id()
+        service.user = request.user
         service.waiting = True
-        service.put()
+        service.save()
         edit_form = None
     
     template_values = {
@@ -95,14 +93,14 @@ def edit_item(request, id):
         'message': None,
     }
     
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def switch_item(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
     service.enabled = not(service.enabled)
-    service.put()
+    service.save()
     create_form = ServiceForm()
     message = 'Switched service %s!' % ('on' if service.enabled else 'off')
 
@@ -114,14 +112,14 @@ def switch_item(request, id):
         'message': message,
     }
 
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def force_item(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
     service.waiting = True
-    service.put()
+    service.save()
     message = 'The service will be updated on next IP check!'
 
     template_values = {
@@ -132,18 +130,19 @@ def force_item(request, id):
         'message': message,
     }
 
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
-@login_required
 def feed_item(request, id):
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
-
-    return HttpResponseRedirect(reverse('dnsalloc.views.feed_status', kwargs={'key': str(service.key())}))
+    feedgen = ResultFeed('status', request).get_feed(id)
+    response = HttpResponse(mimetype=feedgen.mime_type)
+    feedgen.write(response, 'utf-8')
+    
+    return response
 
 @login_required
 def delete_item(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
     service.delete()
     create_form = ServiceForm()
     message = 'Deleted service from your Dashboard!'
@@ -156,12 +155,12 @@ def delete_item(request, id):
         'message': message,
     }
 
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
 def delete_item_ask(request, id):
-    services = Service.all().filter('user_id = ', request.user.key().id()).order('-tstamp')
-    service = get_object_or_404(Service, 'user_id = ', request.user.key().id(), id=int(id))
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=id)
     create_form = ServiceForm()
     message = 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_item', kwargs={'id': id}))
 
@@ -173,11 +172,4 @@ def delete_item_ask(request, id):
         'message': message,
     }
 
-    return render_to_response(request, 'dnsalloc/show_dashboard.html', template_values)
-
-def feed_status(request, key):
-    feedgen = ResultFeed('status', request).get_feed(key)
-    response = HttpResponse(mimetype=feedgen.mime_type)
-    feedgen.write(response, 'utf-8')
-    
-    return response
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
