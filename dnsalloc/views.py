@@ -173,3 +173,7 @@ def delete_item_ask(request, id):
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+
+def feed_item_key(request, key):
+    from google.appengine.ext import db
+    return HttpResponseRedirect(reverse('dnsalloc.views.feed_item', kwargs={'id': db.Key(key).id()}))
