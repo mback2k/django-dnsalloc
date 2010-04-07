@@ -1,11 +1,11 @@
-{% extends "base_yaml.html" %}
+{% extends "yaml.html" %}
 
 {% block title %}DNS Allocator - Dynamic IP Broadcast{% endblock %}
 
 {% block extra-head %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/navigation/nav_slidingdoor.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}navigation/nav_slidingdoor.css" />
   {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}yaml/add-ons/rtl-support/navigation/nav_slidingdoor-rtl.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}add-ons/rtl-support/navigation/nav_slidingdoor-rtl.css" />
   {% endif %}
   <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}screen/basemod.css" />
   <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}screen/content.css" />
