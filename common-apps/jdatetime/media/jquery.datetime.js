@@ -37,7 +37,7 @@ Date.prototype.setISO8601 = function(string) {
   if (d[7]) { date.setHours(d[7]); }
   if (d[8]) { date.setMinutes(d[8]); }
   if (d[10]) { date.setSeconds(d[10]); }
-  if (d[12]) { date.setMilliseconds(Number("0." + d[12]) * 1000); }
+  if (d[12]) { date.setMilliseconds(Number('0.' + d[12]) * 1000); }
   if (d[14]) {
     offset = (Number(d[16]) * 60) + Number(d[17]);
     offset *= ((d[15] == '-') ? 1 : -1);
@@ -50,7 +50,7 @@ Date.prototype.setISO8601 = function(string) {
   return this;
 };
 jQuery.removeTimezone = function(string) {
-  return string.replace(/\s[A-Z]{3,4}(\+[0-9]{4})?/, '').replace(/\s\([\s\w]+\)/, '');
+  return string.replace(/\s[A-Z]{3,4}(\+[0-9]{4})?/, '').replace(/\s\(.+\)/, '');
 }
 jQuery.fn.extend({
   formatDatetime: function() {
