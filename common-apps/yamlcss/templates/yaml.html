@@ -4,18 +4,18 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>{% block title %}{% endblock %}</title>
   {% block css %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}core/base.css" />
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}screen/forms.css" />
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}add-ons/microformats/microformats.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}core/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}screen/forms.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}add-ons/microformats/microformats.css" />
   {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}add-ons/rtl-support/core/base-rtl.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}add-ons/rtl-support/core/base-rtl.css" />
   {% endif %}
-  <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}core/print_base.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}core/print_base.css" />
   <!--[if IE]>
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}core/iehacks.css" />
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}patches/patch_nav_vlist.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}core/iehacks.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}patches/patch_nav_vlist.css" />
   {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}add-ons/rtl-support/core/iehacks-rtl.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}add-ons/rtl-support/core/iehacks-rtl.css" />
   {% endif %}
   <![endif]-->
   {% endblock %}
