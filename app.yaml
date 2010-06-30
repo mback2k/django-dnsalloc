@@ -10,14 +10,14 @@ handlers:
   login: admin
 
 - url: /_ah/queue/deferred
-  script: common-apps/djangoappengine/deferred/handler.py
+  script: djangoappengine/deferred/handler.py
   login: admin
 
 - url: /media
   static_dir: _generated_media
 
 - url: /.*
-  script: common-apps/djangoappengine/main/main.py
+  script: djangoappengine/main/main.py
 
 skip_files:
 - ^(.*/)?app\.yaml
