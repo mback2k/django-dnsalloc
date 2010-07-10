@@ -14,3 +14,6 @@ desktop.ini
 settings_overrides.py
 nbproject
 django
+djangotoolbox
+djangoappengine
+staticfiles
