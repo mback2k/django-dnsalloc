@@ -1,6 +1,5 @@
-import base64
+import urllib2
 import datetime
-from google.appengine.api import urlfetch
 from dnsalloc.models import Service, Result
 from jsonrpc.decorators import jsonrpc_function
 
@@ -20,14 +19,18 @@ def setService(id, status, host):
         
     if status != service.status and host:
         try:
-            status = urlfetch.fetch('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host), None, 'GET', {'Authorization': 'Basic ' + base64.b64encode('%s:%s' % (service.username, service.password))}).content
+            mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            mgr.add_password(None, 'https://updates.dnsomatic.com/nic/update', service.username, service.password)
+            res = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr)).open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
+            status = res.read()
         except:
             return
             
     if status != service.status:
         Result.objects.create(service=service, status=status)
         
-    service.enabled = False if status in ['dnserr', 'nohost', 'badauth'] else service.enabled
-    service.waiting = False
-    service.update = datetime.datetime.now()
-    service.save()
+    if status != service.status or service.waiting:
+        service.enabled = False if status in ['dnserr', 'nohost', 'badauth'] else service.enabled
+        service.waiting = False
+        service.update = datetime.datetime.now()
+        service.save()
