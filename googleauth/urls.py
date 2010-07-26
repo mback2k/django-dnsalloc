@@ -7,6 +7,7 @@ urlpatterns = patterns('django.contrib.auth.views',
 )
 
 from django.contrib.auth import views, authenticate, login as user_login, logout as user_logout
+from django.contrib.admin import sites
 
 def login(request):
     from google.appengine.api import users
@@ -20,7 +21,7 @@ def login(request):
         return HttpResponseRedirect(getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
     
     return HttpResponseRedirect(users.create_login_url(reverse('django.contrib.auth.views.login')))
-
+    
 def logout(request):
     from google.appengine.api import users
     from django.http import HttpResponseRedirect
@@ -29,6 +30,7 @@ def logout(request):
     user_logout(request)
     
     return HttpResponseRedirect(users.create_logout_url(getattr(settings, 'LOGOUT_REDIRECT_URL', '/')))
-    
+
 views.login = login
 views.logout = logout
+sites.AdminSite.login = lambda s, r: login(r)
