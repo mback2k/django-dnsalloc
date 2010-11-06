@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-import os, sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'common-apps'))
-from djangoappengine.boot import setup_env
-setup_env()
-
 from django.core.management import execute_manager
 try:
     import settings # Assumed to be in the same directory.

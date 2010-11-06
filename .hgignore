@@ -16,4 +16,4 @@ nbproject
 django
 djangotoolbox
 djangoappengine
-staticfiles
+dbindexer

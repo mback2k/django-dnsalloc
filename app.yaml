@@ -2,16 +2,13 @@ application: dnsalloc
 version: 8
 runtime: python
 api_version: 1
-default_expiration: 3650d
 
-derived_file_type:
-- python_precompiled
+builtins:
+- remote_api: on
+- datastore_admin: on
+- appstats: on
 
 handlers:
-- url: /remote_api
-  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
-  login: admin
-
 - url: /_ah/queue/deferred
   script: djangoappengine/deferred/handler.py
   login: admin
