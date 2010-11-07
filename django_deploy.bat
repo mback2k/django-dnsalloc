@@ -1,2 +1,2 @@
-manage.py collectstatic
+manage.py collectstatic --noinput
 manage.py deploy

@@ -133,11 +133,8 @@ def force_item(request, id):
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 def feed_item(request, id):
-    feedgen = ResultFeed('status', request).get_feed(id)
-    response = HttpResponse(mimetype=feedgen.mime_type)
-    feedgen.write(response, 'utf-8')
-    
-    return response
+    feed = ResultFeed()
+    return feed(request, id)
 
 @login_required
 def delete_item(request, id):

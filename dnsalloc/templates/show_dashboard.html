@@ -13,7 +13,7 @@
     {% if message %}<p class="important"><span class="float_right"><a href="{% url dnsalloc.views.show_dashboard %}" title="Close" class="toggle">Close</a></span><span>{{ message|safe }}</span></p>{% else %}
     {% if service %}
     {% if edit_form %}
-    <form action="{% url dnsalloc.views.edit_item edit_form.id %}" method="post" class="yform columnar">
+    <form action="{% url dnsalloc.views.edit_item edit_form.id %}" method="post" class="yform columnar">{% csrf_token %}
     <fieldset>
       <legend><img src="{{ STATICFILES_URL }}icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
       {{ edit_form.as_yaml }}
@@ -76,7 +76,7 @@
   </div>
   <div id="lower">
     {% if create_form %}
-    <form action="{% url dnsalloc.views.create_item %}" method="post" class="yform columnar">
+    <form action="{% url dnsalloc.views.create_item %}" method="post" class="yform columnar">{% csrf_token %}
     <fieldset>
       <legend><img src="{{ STATICFILES_URL }}icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
       {{ create_form.as_yaml }}

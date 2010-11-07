@@ -1,11 +1,11 @@
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from dnsalloc.models import Service, Result
 from django.shortcuts import get_object_or_404
 
 class ResultFeed(Feed):
-    def get_object(self, bits):
-        return get_object_or_404(Service, id=bits[0])
+    def get_object(self, request, id):
+        return get_object_or_404(Service, id=id)
 
     def title(self, obj):
         return 'DNS Allocator - Status Feed: %s' % obj.hostname
