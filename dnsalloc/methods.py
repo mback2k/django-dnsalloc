@@ -23,6 +23,8 @@ def setService(id, status, host):
             mgr.add_password(None, 'https://updates.dnsomatic.com/nic/update', service.username, service.password)
             res = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr)).open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
             status = res.read()
+        except urllib2.HTTPError:
+            status = 'badauth'
         except:
             return
             
