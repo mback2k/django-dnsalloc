@@ -26,7 +26,7 @@ def show_dashboard(request):
 
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'service_create_form': create_form,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
@@ -44,15 +44,15 @@ def create_item(request):
 
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'service_create_form': create_form,
     }
     
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
-def show_item(request, id):
+def show_item(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
 
     Result.objects.all().filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
 
@@ -64,9 +64,9 @@ def show_item(request, id):
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
-def edit_item(request, id):
+def edit_item(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
     
     if edit_form.is_valid():
@@ -78,16 +78,16 @@ def edit_item(request, id):
     
     template_values = {
         'services': services,
-        'edit_form': edit_form,
         'service': service,
+        'service_edit_form': edit_form,
     }
     
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
-def switch_item(request, id):
+def switch_item(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
     service.enabled = not(service.enabled)
     service.save()
     create_form = ServiceForm()
@@ -96,15 +96,15 @@ def switch_item(request, id):
     
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'service_create_form': create_form,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
-def force_item(request, id):
+def force_item(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
     service.waiting = True
     service.save()
     
@@ -117,14 +117,14 @@ def force_item(request, id):
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
-def feed_item(request, id):
+def feed_item(request, service_id):
     feed = ResultFeed()
-    return feed(request, id)
+    return feed(request, service_id)
 
 @login_required
-def delete_item(request, id):
+def delete_item(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
     service.delete()
     create_form = ServiceForm()
     
@@ -132,22 +132,22 @@ def delete_item(request, id):
     
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'service_create_form': create_form,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
-def delete_item_ask(request, id):
+def delete_item_ask(request, service_id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=id)
+    service = get_object_or_404(Service, user=request.user, id=service_id)
     create_form = ServiceForm()
     
-    messages.warning(request, 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_item', kwargs={'id': id})))
+    messages.warning(request, 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_item', kwargs={'id': service_id})))
     
     template_values = {
         'services': services,
-        'create_form': create_form,
+        'service_create_form': create_form,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))

@@ -9,11 +9,11 @@
 
 {% block content %}
   {% if service %}
-  {% if edit_form %}
+  {% if service_edit_form %}
   <form action="{% url dnsalloc.views.edit_item service.id %}" method="post" class="yform columnar">{% csrf_token %}
   <fieldset>
     <legend><img src="{{ STATICFILES_URL }}icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
-    {{ edit_form.as_yaml }}
+    {{ service_edit_form.as_yaml }}
     <div class="type-button">
       <input type="submit" name="submit" value="Save Service" />
       <a href="{% url dnsalloc.views.show_dashboard %}" title="Close"><input type="button" name="close" value="Close" /></a>
@@ -67,11 +67,11 @@
       {% endfor %}
     </tbody>
   </table>
-  {% if create_form %}
+  {% if service_create_form %}
   <form action="{% url dnsalloc.views.create_item %}" method="post" class="yform columnar">{% csrf_token %}
   <fieldset>
     <legend><img src="{{ STATICFILES_URL }}icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
-    {{ create_form.as_yaml }}
+    {{ service_create_form.as_yaml }}
     <div class="type-button">
       <input type="submit" name="submit" value="Add Service" />
     </div>
