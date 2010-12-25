@@ -8,9 +8,7 @@
 {% endblock %}
 
 {% block content %}
-  <p class="note">The usernames, passwords, or other login information will be available to this application and Google!<br />The information is send through a secure connection and is only used at the time an update is broadcasted.</p>
   <div id="upper">
-    {% if message %}<p class="important"><span class="float_right"><a href="{% url dnsalloc.views.show_dashboard %}" title="Close" class="toggle">Close</a></span><span>{{ message|safe }}</span></p>{% else %}
     {% if service %}
     {% if edit_form %}
     <form action="{% url dnsalloc.views.edit_item edit_form.id %}" method="post" class="yform columnar">{% csrf_token %}
@@ -50,7 +48,6 @@
     </table>
     {% endif %}
     {% endif %}
-    {% endif %}
   </div>
   <div id="base">
     <table class="full">
@@ -83,6 +80,7 @@
       <div class="type-button">
         <input type="submit" name="submit" value="Add Service" />
       </div>
+      <div class="info">The usernames, passwords, or other login information will be available to this application and Google!<br />The information is send through a secure connection and is only used at the time an update is broadcasted.</div>
     </fieldset>
     </form>
     {% endif %}
