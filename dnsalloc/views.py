@@ -27,8 +27,6 @@ def show_dashboard(request):
     template_values = {
         'services': services,
         'create_form': create_form,
-        'edit_form': None,
-        'service': None,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
@@ -47,8 +45,6 @@ def create_item(request):
     template_values = {
         'services': services,
         'create_form': create_form,
-        'edit_form': None,
-        'service': None,
     }
     
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
@@ -62,8 +58,6 @@ def show_item(request, id):
 
     template_values = {
         'services': services,
-        'create_form': None,
-        'edit_form': None,
         'service': service,
     }
     
@@ -74,7 +68,6 @@ def edit_item(request, id):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
     service = get_object_or_404(Service, user=request.user, id=id)
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
-    edit_form.id = service.id
     
     if edit_form.is_valid():
         service = edit_form.save(commit=False)
@@ -85,7 +78,6 @@ def edit_item(request, id):
     
     template_values = {
         'services': services,
-        'create_form': None,
         'edit_form': edit_form,
         'service': service,
     }
@@ -105,8 +97,6 @@ def switch_item(request, id):
     template_values = {
         'services': services,
         'create_form': create_form,
-        'edit_form': None,
-        'service': None,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
@@ -122,8 +112,6 @@ def force_item(request, id):
     
     template_values = {
         'services': services,
-        'create_form': None,
-        'edit_form': None,
         'service': service,
     }
 
@@ -145,8 +133,6 @@ def delete_item(request, id):
     template_values = {
         'services': services,
         'create_form': create_form,
-        'edit_form': None,
-        'service': None,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
@@ -162,8 +148,6 @@ def delete_item_ask(request, id):
     template_values = {
         'services': services,
         'create_form': create_form,
-        'edit_form': None,
-        'service': None,
     }
 
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
