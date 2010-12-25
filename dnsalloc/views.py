@@ -33,6 +33,20 @@ def show_dashboard(request):
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 @login_required
+def show_service(request, service_id):
+    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
+    service = get_object_or_404(Service, user=request.user, id=service_id)
+
+    Result.objects.all().filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
+
+    template_values = {
+        'services': services,
+        'service': service,
+    }
+    
+    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+
+@login_required
 def create_service(request):
     services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
     create_form = ServiceForm(data=request.POST)
@@ -46,20 +60,6 @@ def create_service(request):
     template_values = {
         'services': services,
         'service_create_form': create_form,
-    }
-    
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
-
-@login_required
-def show_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('-tstamp')
-    service = get_object_or_404(Service, user=request.user, id=service_id)
-
-    Result.objects.all().filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
-
-    template_values = {
-        'services': services,
-        'service': service,
     }
     
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
