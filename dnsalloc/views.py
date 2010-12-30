@@ -55,7 +55,7 @@ def create_service(request):
         service = create_form.save(commit=False)
         service.user = request.user
         service.save()
-        create_form = None
+        return HttpResponseRedirect(reverse('dnsalloc.views.show_service', kwargs={'service_id': service.id}))
 
     template_values = {
         'services': services,
@@ -75,7 +75,7 @@ def edit_service(request, service_id):
         service.user = request.user
         service.waiting = True
         service.save()
-        edit_form = None
+        return HttpResponseRedirect(reverse('dnsalloc.views.show_service', kwargs={'service_id': service.id}))
     
     template_values = {
         'services': services,
@@ -93,7 +93,7 @@ def switch_service(request, service_id):
     service.save()
     create_form = ServiceForm()
     
-    messages.success(request, 'Switched service %s!' % ('on' if service.enabled else 'off'))
+    messages.success(request, 'Switched service "%s" %s!' % (service, 'on' if service.enabled else 'off'))
     
     template_values = {
         'services': services,
@@ -109,7 +109,7 @@ def force_service(request, service_id):
     service.waiting = True
     service.save()
     
-    messages.success(request, 'The service will be updated on next IP check!')
+    messages.success(request, 'The service "%s" will be updated on next IP check!' % service)
     
     template_values = {
         'services': services,
@@ -125,7 +125,7 @@ def delete_service(request, service_id):
     service.delete()
     create_form = ServiceForm()
     
-    messages.success(request, 'Deleted service from your Dashboard!')
+    messages.success(request, 'Deleted service "%s" from your Dashboard!' % service)
     
     template_values = {
         'services': services,
@@ -140,7 +140,7 @@ def delete_service_ask(request, service_id):
     service = get_object_or_404(Service, user=request.user, id=service_id)
     create_form = ServiceForm()
     
-    messages.warning(request, 'Do you want to delete %s? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_service', kwargs={'service_id': service_id})))
+    messages.warning(request, 'Do you want to delete service "%s"? <a href="%s" title="Yes">Yes</a>' % (service, reverse('dnsalloc.views.delete_service', kwargs={'service_id': service_id})))
     
     template_values = {
         'services': services,
