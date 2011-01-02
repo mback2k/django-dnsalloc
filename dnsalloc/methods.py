@@ -6,9 +6,9 @@ from jsonrpc.decorators import jsonrpc_function
 @jsonrpc_function
 def getServices(limit=25, offset=None):
     if offset:
-        return Service.objects.all().filter(enabled=True).filter(id__gt=offset).order_by('id')[:limit].values('id', 'hostname')
+        return Service.objects.filter(enabled=True).filter(id__gt=offset).order_by('id')[:limit].values('id', 'hostname')
     else:
-        return Service.objects.all().filter(enabled=True).order_by('id')[:limit].values('id', 'hostname')
+        return Service.objects.filter(enabled=True).order_by('id')[:limit].values('id', 'hostname')
 
 @jsonrpc_function
 def setService(id, status, host):

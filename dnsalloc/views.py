@@ -11,7 +11,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
 
 def show_home(request):
-    services = Service.objects.all().filter(enabled=True).count()
+    services = Service.objects.filter(enabled=True).count()
 
     template_values = {
         'services': services,
@@ -22,7 +22,7 @@ def show_home(request):
 
 @login_required
 def show_dashboard(request):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     create_form = ServiceForm()
 
     template_values = {
@@ -34,10 +34,10 @@ def show_dashboard(request):
 
 @login_required
 def show_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
 
-    Result.objects.all().filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
+    Result.objects.filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
 
     template_values = {
         'services': services,
@@ -48,7 +48,7 @@ def show_service(request, service_id):
 
 @login_required
 def create_service(request):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     create_form = ServiceForm(data=request.POST)
 
     if create_form.is_valid():
@@ -66,7 +66,7 @@ def create_service(request):
 
 @login_required
 def edit_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
     edit_form = ServiceForm(instance=service, data=request.POST if request.method == 'POST' else None)
     
@@ -87,7 +87,7 @@ def edit_service(request, service_id):
 
 @login_required
 def switch_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
     service.enabled = not(service.enabled)
     service.save()
@@ -104,7 +104,7 @@ def switch_service(request, service_id):
 
 @login_required
 def force_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
     service.waiting = True
     service.save()
@@ -120,7 +120,7 @@ def force_service(request, service_id):
 
 @login_required
 def delete_service(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
     service.delete()
     create_form = ServiceForm()
@@ -136,7 +136,7 @@ def delete_service(request, service_id):
 
 @login_required
 def delete_service_ask(request, service_id):
-    services = Service.objects.all().filter(user=request.user).order_by('hostname')
+    services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
     create_form = ServiceForm()
     
