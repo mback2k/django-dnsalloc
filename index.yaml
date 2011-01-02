@@ -35,10 +35,9 @@ indexes:
 - kind: dnsalloc_service
   properties:
   - name: enabled
-  - name: crdate
+  - name: hostname
 
 - kind: dnsalloc_service
   properties:
   - name: user_id
-  - name: tstamp
-    direction: desc
+  - name: hostname
