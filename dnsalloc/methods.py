@@ -32,7 +32,7 @@ def setService(id, status, host):
         Result.objects.create(service=service, status=status)
         
     if status != service.status or service.waiting:
-        service.enabled = False if status in ['dnserr', 'nohost', 'badauth'] else service.enabled
+        service.enabled = False if status in ['notfqdn', 'nohost', 'numhost', 'abuse', 'badauth', '!donator'] else service.enabled
         service.waiting = False
         service.update = datetime.datetime.now()
         service.save()
