@@ -1,5 +1,4 @@
 import datetime
-from google.appengine.ext import db
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
@@ -153,7 +152,3 @@ def delete_service_ask(request, service_id):
 def feed_service(request, service_id):
     feed = ResultFeed()
     return feed(request, service_id)
-
-def feed_service_key(request, service_key):
-    from google.appengine.ext import db
-    return HttpResponseRedirect(reverse('dnsalloc.views.feed_service', kwargs={'service_id': db.Key(service_key).id()}))

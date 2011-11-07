@@ -11,6 +11,5 @@ urlpatterns = patterns('dnsalloc.views',
     (r'^dashboard/service/(?P<service_id>\d+)/force/$', 'force_service'),
     (r'^dashboard/service/(?P<service_id>\d+)/delete/$', 'delete_service'),
     (r'^dashboard/service/(?P<service_id>\d+)/delete/ask/$', 'delete_service_ask'),
-    (r'^dashboard/feed/(?P<service_id>\d+)/$', 'feed_service'),
-    (r'^feed/status/(?P<service_key>\w+)/$', 'feed_service_key'),
+    (r'^feed/service/(?P<service_id>\d+)/status/$', 'feed_service'),
 )
