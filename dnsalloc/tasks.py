@@ -12,7 +12,7 @@ def task_start_worker():
 @task()
 def task_update_service(service_id):
     try:
-        service = Service.objects.get(id=calendar_id)
+        service = Service.objects.get(id=service_id)
 
         if not service.enabled:
             return
