@@ -18,7 +18,7 @@ def task_update_service(service_id):
             return
 
         try:
-            host = socket.gethostbyname(service['hostname'])
+            host = socket.gethostbyname(service.hostname)
             status = 'good %s' % host
             
         except socket.gaierror:
