@@ -1,9 +1,9 @@
 [submodule "googleauth"]
 	path = googleauth
-	url = git@github.com:mback2k/django-googleauth.git
+	url = https://github.com/mback2k/django-googleauth.git
 [submodule "yamlcss"]
 	path = yamlcss
-	url = git@github.com:mback2k/django-yamlcss.git
+	url = https://github.com/mback2k/django-yamlcss.git
 [submodule "jdatetime"]
 	path = jdatetime
-	url = git@github.com:mback2k/django-jdatetime.git
+	url = https://github.com/mback2k/django-jdatetime.git
