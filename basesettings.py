@@ -95,7 +95,6 @@ INSTALLED_APPS = (
     
     'googleauth',
     'yamlcss',
-    'jquery',
     'jdatetime',
     
     'dnsalloc',
