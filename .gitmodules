@@ -4,3 +4,6 @@
 [submodule "yamlcss"]
 	path = yamlcss
 	url = git@github.com:mback2k/django-yamlcss.git
+[submodule "jdatetime"]
+	path = jdatetime
+	url = git@github.com:mback2k/django-jdatetime.git
