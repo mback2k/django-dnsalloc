@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from dnsalloc.forms import ServiceForm
 from dnsalloc.feeds import ResultFeed
 from dnsalloc.models import Service, Result
+from dnsalloc.tasks import task_update_service
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
@@ -107,9 +108,11 @@ def force_service(request, service_id):
     service = get_object_or_404(Service, user=request.user, id=service_id)
     service.waiting = True
     service.save()
-    
+
+    task_update_service.apply_async(args=[service.id])
+
     messages.success(request, 'The service "%s" will be updated on next IP check!' % service)
-    
+
     template_values = {
         'services': services,
         'service': service,
