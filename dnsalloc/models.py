@@ -27,7 +27,11 @@ class Service(models.Model):
     @cache_property
     def statusimg(self):
         return self.result.statusimg
-        
+
+    @cache_property
+    def host(self):
+        return self.result.host
+
     @cache_property
     def results(self):
         return self.result_set.order_by('-crdate')
@@ -42,6 +46,7 @@ class Service(models.Model):
 class Result(models.Model):
     service = models.ForeignKey(Service)
     status = models.CharField(_('status'), max_length=100)
+    host = models.CharField(_('host'), max_length=15, blank=True, null=True)
     crdate = models.DateTimeField(_('date created'), auto_now_add=True)
     
     def __unicode__(self):

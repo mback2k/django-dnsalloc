@@ -21,25 +21,27 @@ def task_update_service(service_id):
 
         try:
             host = socket.gethostbyname(service.hostname)
-            status = 'good %s' % host
-            
+
         except socket.gaierror:
             host = None
-            status = 'dnserr'
-        
-        if (status != service.status or service.waiting) and host:
-            try:
-                mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-                mgr.add_password(None, 'https://updates.dnsomatic.com/nic/update', service.username, service.password)
-                
-                result = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr)).open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
-                status = result.read().strip()
-                
-            except urllib2.HTTPError:
-                status = 'badauth'
-        
-        if status != service.status or service.waiting:
-            Result.objects.create(service=service, status=status)
+
+        if service.waiting or service.host != host:
+            if host:
+                try:
+                    mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+                    mgr.add_password(None, 'https://updates.dnsomatic.com/nic/update', service.username, service.password)
+
+                    result = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr)).open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
+                    status = result.read().strip()
+
+                except urllib2.HTTPError:
+                    status = 'badauth'
+
+            else:
+                status = 'dnserr'
+
+        if service.waiting or service.status != status:
+            Result.objects.create(service=service, status=status, host=host)
 
             service.enabled = False if status in ['notfqdn', 'nohost', 'numhost', 'abuse', 'badauth', '!donator'] else service.enabled
             service.waiting = False

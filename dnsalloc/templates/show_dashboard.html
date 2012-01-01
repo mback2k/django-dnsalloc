@@ -29,13 +29,15 @@
       <tr>
         <th scope="col">Time</th>
         <th scope="col">Status</th>
+        <th scope="col">IP Address</th>
         <th class="right">{% ifequal service.status "waiting" %}<em>Force update</em>{% else %}<a href="{% url dnsalloc.views.force_service service.id %}" title="Force update">Force update</a>{% endifequal %} | <a href="{% url dnsalloc.views.show_dashboard %}" title="Close">Close</a></th>
       </tr>
       {% if service.results %}
       {% for result in service.results %}
       <tr>
         <td colspan="1">{{ result.crdate|localedatetime }}</td>
-        <td colspan="2"><img src="{{ STATIC_URL }}icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+        <td colspan="1"><img src="{{ STATIC_URL }}icons/{% ifequal result.statusimg "good" %}accept{% else %}{% ifequal result.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="" class="status" /> {{ result.status }}</td>
+        <td colspan="2">{{ result.host }}</td>
       </tr>
       {% endfor %}
       {% else %}
