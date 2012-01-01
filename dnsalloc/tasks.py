@@ -40,6 +40,9 @@ def task_update_service(service_id):
             else:
                 status = 'dnserr'
 
+        else:
+            status = service.status
+
         if service.waiting or service.status != status:
             Result.objects.create(service=service, status=status, host=host)
 
