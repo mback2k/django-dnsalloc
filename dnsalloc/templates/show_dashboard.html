@@ -23,7 +23,7 @@
   {% else %}
   <table class="full">
     <thead>
-      <tr><th scope="col" colspan="3">Status of {{ service.hostname }}:</th></tr>
+      <tr><th scope="col" colspan="4">Status of {{ service.hostname }}:</th></tr>
     </thead>
     <tbody>
       <tr>
@@ -42,7 +42,7 @@
       {% endfor %}
       {% else %}
       <tr>
-        <td colspan="3">No results for this week.</td>
+        <td colspan="4">No results for this week.</td>
       </tr>
       {% endif %}
     </tbody>
