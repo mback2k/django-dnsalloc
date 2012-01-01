@@ -4,19 +4,21 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from dnsalloc.forms import ServiceForm
 from dnsalloc.feeds import ResultFeed
-from dnsalloc.models import Service, Result
+from dnsalloc.models import User, Service, Result
 from dnsalloc.tasks import task_update_service
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
 
 def show_home(request):
+    users = User.objects.filter(is_active=True).count()
     services = Service.objects.filter(enabled=True).count()
 
     template_values = {
+        'users': users,
         'services': services,
     }
-    
+
     return render_to_response('show_home.html', template_values, context_instance=RequestContext(request))
 
 
