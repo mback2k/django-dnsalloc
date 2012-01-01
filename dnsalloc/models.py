@@ -7,8 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class Service(models.Model):
     user = models.ForeignKey(User)
-    username = models.CharField(_('username'), max_length=30, blank=True, null=True, db_index=False)
-    password = models.CharField(_('password'), max_length=30, blank=True, null=True, db_index=False)
+    username = models.CharField(_('username'), max_length=50, db_index=False)
+    password = models.CharField(_('password'), max_length=50, db_index=False)
     hostname = models.CharField(_('hostname'), max_length=100)
     services = models.CharField(_('services'), max_length=100, blank=True, null=True)
     crdate = models.DateTimeField(_('date created'), auto_now_add=True)
