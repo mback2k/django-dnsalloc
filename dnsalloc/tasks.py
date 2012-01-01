@@ -2,6 +2,7 @@ import socket
 import urllib2
 import datetime
 from celery.decorators import task
+from django.core.urlresolvers import reverse
 from dnsalloc.models import Service, Result
 
 @task()
@@ -43,6 +44,12 @@ def task_update_service(service_id):
             service.waiting = False
             service.update = datetime.datetime.now()
             service.save()
-        
+
+        if not service.enabled:
+            service.user.email_user('DNS Allocator - Update failure for %s - Action required!' % service.hostname,
+                                    'DNS Allocator tried to update your host "%s", but failed to do so, because of the following error code:\n\n' \
+                                    'https://dnsalloc.uxnr.de/%s\n\n' \
+                                    'Please go to %s and update your configuration!' % (service.hostname, status, reverse('dnsalloc.views.edit_service', kwargs={'service_id': service.id})))
+
     except Service.DoesNotExist, e:
         pass
