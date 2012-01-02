@@ -6,7 +6,6 @@ Dependencies
 - Django             [http://www.djangoproject.com/]
 - Celery             [http://www.celeryproject.org/]
 - Kombu              [http://pypi.python.org/pypi/kombu/]
-
 - django-celery      [https://github.com/ask/django-celery]
 - django-kombu       [https://github.com/ask/django-kombu]
 - django-fields      [https://github.com/svetlyak40wt/django-fields]
