@@ -8,8 +8,8 @@ from django_fields.fields import EncryptedCharField
 
 class Service(models.Model):
     user = models.ForeignKey(User)
-    username = EncryptedCharField(_('username'), max_length=50, db_index=False)
-    password = EncryptedCharField(_('password'), max_length=50, db_index=False)
+    username = EncryptedCharField(_('username'), max_length=100, db_index=False)
+    password = EncryptedCharField(_('password'), max_length=100, db_index=False)
     hostname = models.CharField(_('hostname'), max_length=100)
     services = models.CharField(_('services'), max_length=100, blank=True, null=True)
     crdate = models.DateTimeField(_('date created'), auto_now_add=True)
