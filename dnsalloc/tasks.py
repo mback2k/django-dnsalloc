@@ -1,7 +1,7 @@
 import socket
 import urllib2
 import datetime
-from celery.decorators import task
+from celery.task import task
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from dnsalloc.models import Service, Result
