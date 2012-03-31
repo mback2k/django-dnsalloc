@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
 {% block navigation %}
-  <div class="hlist"><ul>
-    <li><a href="{% url dnsalloc.views.show_home %}" title="Home">Home</a></li>
-    <li class="active"><strong>Dashboard</strong></li>
-  </ul></div>
+  <li><a href="{% url dnsalloc.views.show_home %}" title="Home">Home</a></li>
+  <li class="active"><strong>Dashboard</strong></li>
 {% endblock %}
 
 {% block content %}
   {% if service %}
   {% if service_edit_form %}
-  <form action="{% url dnsalloc.views.edit_service service.id %}" method="post" class="yform columnar">{% csrf_token %}
-  <fieldset>
-    <legend><img src="{{ STATIC_URL }}icons/pencil.png" alt="" /> <strong>Edit DNS-O-Matic Service Update:</strong></legend>
+  <form action="{% url dnsalloc.views.edit_service service.id %}" method="post" class="ym-form ym-columnar">
+    {% csrf_token %}
+    <h6>Edit DNS-O-Matic Service:</h6>
     {{ service_edit_form.as_yaml }}
-    <div class="type-button">
-      <input type="submit" name="submit" value="Save Service" />
-      <a href="{% url dnsalloc.views.show_dashboard %}" title="Close"><input type="button" name="close" value="Close" /></a>
+    <div class="ym-fbox-button">
+      <input class="ym-button ym-save" type="submit" name="submit" value="Save Service" />
+      <a class="ym-button ym-next" href="{% url dnsalloc.views.show_dashboard %}" title="Go Back">Go Back</a>
     </div>
-  </fieldset>
   </form>
   {% else %}
-  <table class="full">
+  <table class="bordertable">
     <thead>
       <tr><th scope="col" colspan="4">Status of {{ service.hostname }}:</th></tr>
     </thead>
@@ -49,7 +46,8 @@
   </table>
   {% endif %}
   {% endif %}
-  <table class="full">
+  {% if services %}
+  <table class="bordertable">
     <tbody>
       <tr>
         <th scope="col">Hostname</th>
@@ -69,16 +67,17 @@
       {% endfor %}
     </tbody>
   </table>
+  {% endif %}
   {% if service_create_form %}
-  <form action="{% url dnsalloc.views.create_service %}" method="post" class="yform columnar">{% csrf_token %}
-  <fieldset>
-    <legend><img src="{{ STATIC_URL }}icons/add.png" alt="" /> <strong>Add DNS-O-Matic Service Updates to your account:</strong></legend>
+  <form action="{% url dnsalloc.views.create_service %}" method="post" class="ym-form ym-columnar">
+    {% csrf_token %}
+    <h6>Create DNS-O-Matic Service:</h6>
     {{ service_create_form.as_yaml }}
-    <div class="type-button">
-      <input type="submit" name="submit" value="Add Service" />
+    <blockquote><p class="highlight"><small>The usernames, passwords, or other login information will be available to this application!<br />
+    The information is sent through a secure connection and is only used at the time an update is broadcasted.</small></p></blockquote>
+    <div class="ym-fbox-button">
+      <input class="ym-button ym-save" type="submit" name="submit" value="Create Service" />
     </div>
-    <div class="info">The usernames, passwords, or other login information will be available to this application!<br />The information is send through a secure connection and is only used at the time an update is broadcasted.</div>
-  </fieldset>
   </form>
   {% endif %}
 {% endblock %}
