@@ -22,12 +22,14 @@
   {% ifnotequal service.status "waiting" %}<a class="ym-button ym-play float-right" href="{% url dnsalloc.views.force_service service.id %}" title="Force Update">Force Update</a>{% endifnotequal %}
   <h3>Status of {{ service.hostname }}</h3>
   <table class="bordertable">
-    <tbody>
+    <thead>
       <tr>
         <th scope="col">Time</th>
         <th scope="col">Status</th>
         <th scope="col">IP Address</th>
       </tr>
+    </thead>
+    <tbody>
       {% if service.results %}
       {% for result in service.results %}
       <tr>
@@ -47,7 +49,7 @@
   {% endif %}
   {% if services %}
   <table class="bordertable">
-    <tbody>
+    <thead>
       <tr>
         <th scope="col">Hostname</th>
         <th scope="col">DNS-O-Matic Username</th>
@@ -55,6 +57,8 @@
         <th scope="col">Status</th>
         <th scope="col">Manage</th>
       </tr>
+    </thead>
+    <tbody>
       {% for service in services %}
       <tr {% if not service.enabled %}style="background: #fff8f8;"{% endif %}>
         <td>{{ service.hostname }}</td>
