@@ -9,6 +9,7 @@ from dnsalloc.tasks import task_update_service
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
+from django.utils import timezone
 
 def show_home(request):
     users = User.objects.filter(is_active=True).count()
@@ -39,7 +40,7 @@ def show_service(request, service_id):
     services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
 
-    Result.objects.filter(crdate__lt=datetime.datetime.now()-datetime.timedelta(days=7)).delete()
+    Result.objects.filter(crdate__lt=timezone.now()-datetime.timedelta(days=7)).delete()
 
     template_values = {
         'services': services,

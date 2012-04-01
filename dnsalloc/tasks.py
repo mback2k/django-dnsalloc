@@ -2,6 +2,7 @@ import socket
 import urllib2
 import datetime
 from celery.task import task
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from dnsalloc.models import Service, Result
@@ -48,7 +49,7 @@ def task_update_service(service_id):
 
             service.enabled = False if status in ['notfqdn', 'nohost', 'numhost', 'abuse', 'badauth', '!donator'] else service.enabled
             service.waiting = False
-            service.update = datetime.datetime.now()
+            service.update = timezone.now()
             service.save()
 
         if not service.enabled:
