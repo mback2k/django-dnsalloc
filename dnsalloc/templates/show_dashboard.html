@@ -11,7 +11,7 @@
   <form action="{% url dnsalloc.views.edit_service service.id %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
     <h6>Edit DNS-O-Matic Service:</h6>
-    {{ service_edit_form.as_yaml }}
+    {{ service_edit_form|yamlform }}
     <div class="ym-fbox-button">
       <input class="ym-button ym-save" type="submit" name="submit" value="Save Service" />
       <a class="ym-button ym-next" href="{% url dnsalloc.views.show_dashboard %}" title="Go Back">Go Back</a>
@@ -75,7 +75,7 @@
   <form action="{% url dnsalloc.views.create_service %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
     <h6>Create DNS-O-Matic Service:</h6>
-    {{ service_create_form.as_yaml }}
+    {{ service_create_form|yamlform }}
     <blockquote><p class="highlight"><small>The usernames, passwords, or other login information will be available to this application!<br />
     The information is sent through a secure connection and is only used at the time an update is broadcasted.</small></p></blockquote>
     <div class="ym-fbox-button">
