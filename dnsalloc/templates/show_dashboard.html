@@ -1,25 +1,28 @@
 {% extends "base.html" %}
+{% load url from future %}
 
 {% block navigation %}
-  <li><a href="{% url dnsalloc.views.show_home %}" title="Home">Home</a></li>
+  <li><a href="{% url 'dnsalloc.views.show_home' %}" title="Home">Home</a></li>
+  {% if user.is_authenticated %}
   <li class="active"><strong>Dashboard</strong></li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
   {% if service %}
   {% if service_edit_form %}
-  <form action="{% url dnsalloc.views.edit_service service.id %}" method="post" class="ym-form ym-columnar">
+  <form action="{% url 'dnsalloc.views.edit_service' service.id %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
     <h6>Edit DNS-O-Matic Service:</h6>
     {{ service_edit_form|yamlform }}
     <div class="ym-fbox-button">
       <input class="ym-button ym-save" type="submit" name="submit" value="Save Service" />
-      <a class="ym-button ym-next" href="{% url dnsalloc.views.show_dashboard %}" title="Go Back">Go Back</a>
+      <a class="ym-button ym-next" href="{% url 'dnsalloc.views.show_dashboard' %}" title="Go Back">Go Back</a>
     </div>
   </form>
   {% else %}
-  <a class="ym-button ym-next float-right" href="{% url dnsalloc.views.show_dashboard %}" title="Go Back">Go Back</a>
-  {% ifnotequal service.status "waiting" %}<a class="ym-button ym-play float-right" href="{% url dnsalloc.views.force_service service.id %}" title="Force Update">Force Update</a>{% endifnotequal %}
+  <a class="ym-button ym-next float-right" href="{% url 'dnsalloc.views.show_dashboard' %}" title="Go Back">Go Back</a>
+  {% ifnotequal service.status "waiting" %}<a class="ym-button ym-play float-right" href="{% url 'dnsalloc.views.force_service' service.id %}" title="Force Update">Force Update</a>{% endifnotequal %}
   <h3>Status of {{ service.hostname }}</h3>
   <table class="bordertable">
     <thead>
@@ -64,15 +67,15 @@
         <td>{{ service.hostname }}</td>
         <td>{{ service.username }}</td>
         <td>{{ service.services }}</td>
-        <td><a href="{% url dnsalloc.views.show_service service.id %}" title="Status: {{ service.status }}"><img src="{{ STATIC_URL }}icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="Status" /></a><a href="{% url dnsalloc.views.feed_service service.id %}" title="Status Feed"><img src="{{ STATIC_URL }}icons/feed.png" alt="Feed" /></a></td>
-        <td><a href="{% url dnsalloc.views.edit_service service.id %}" title="Edit"><img src="{{ STATIC_URL }}icons/pencil.png" alt="Edit" /></a><a href="{% url dnsalloc.views.switch_service service.id %}" title="{% if not service.enabled %}Enable{% else %}Disable{% endif %}"><img src="{{ STATIC_URL }}icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url dnsalloc.views.delete_service_ask service.id %}" title="Delete"><img src="{{ STATIC_URL }}icons/delete.png" alt="Delete" /></a></td>
+        <td><a href="{% url 'dnsalloc.views.show_service' service.id %}" title="Status: {{ service.status }}"><img src="{{ STATIC_URL }}icons/{% ifequal service.statusimg "good" %}accept{% else %}{% ifequal service.statusimg "waiting" %}clock{% else %}error{% endifequal %}{% endifequal %}.png" alt="Status" /></a><a href="{% url 'dnsalloc.views.feed_service' service.id %}" title="Status Feed"><img src="{{ STATIC_URL }}icons/feed.png" alt="Feed" /></a></td>
+        <td><a href="{% url 'dnsalloc.views.edit_service' service.id %}" title="Edit"><img src="{{ STATIC_URL }}icons/pencil.png" alt="Edit" /></a><a href="{% url 'dnsalloc.views.switch_service' service.id %}" title="{% if not service.enabled %}Enable{% else %}Disable{% endif %}"><img src="{{ STATIC_URL }}icons/{% if not service.enabled %}connect{% else %}disconnect{% endif %}.png" alt="{% if not service.enabled %}Enable{% else %}Disable{% endif %}" /></a><a href="{% url 'dnsalloc.views.delete_service_ask' service.id %}" title="Delete"><img src="{{ STATIC_URL }}icons/delete.png" alt="Delete" /></a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% endif %}
   {% if service_create_form %}
-  <form action="{% url dnsalloc.views.create_service %}" method="post" class="ym-form ym-columnar">
+  <form action="{% url 'dnsalloc.views.create_service' %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
     <h6>Create DNS-O-Matic Service:</h6>
     {{ service_create_form|yamlform }}
