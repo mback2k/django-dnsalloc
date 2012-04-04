@@ -60,6 +60,6 @@ Please take a look at the [Django documentation](https://docs.djangoproject.com/
 Executing Tasks
 ---------------
 Besides running the webserver, you need to run celeryd and celerybeat.
-You can do this by executing the following commands from your server's shell:
+You can do this by executing the following command from your server's shell:
 
     python manage.py celeryd -B -E
