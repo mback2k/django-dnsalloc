@@ -63,7 +63,7 @@
     </thead>
     <tbody>
       {% for service in services %}
-      <tr {% if not service.enabled %}style="background: #fff8f8;"{% endif %}>
+      <tr{% if not service.enabled %} style="background: #fff8f8;"{% endif %}>
         <td>{{ service.hostname }}</td>
         <td>{{ service.username }}</td>
         <td>{{ service.services }}</td>
