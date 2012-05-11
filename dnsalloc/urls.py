@@ -13,3 +13,7 @@ urlpatterns = patterns('dnsalloc.views',
     (r'^dashboard/service/(?P<service_id>\d+)/delete/ask/$', 'delete_service_ask'),
     (r'^feed/service/(?P<service_id>\d+)/status/$', 'feed_service'),
 )
+
+urlpatterns += patterns('dnsalloc.methods',
+    (r'^api/restful/results\.(?P<format>\w+)$', 'api_results'),
+)
