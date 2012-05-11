@@ -60,7 +60,7 @@ $(document).ready(function() {
           crdate.setUTCHours(0);
           crdate = crdate.getTime();
 
-          if (point.fields.status.indexOf('good') == 0 || point.fields.status.indexOf('nochg') == 0) {
+          if (point.fields.successful) {
             if (crdate in data.successful) {
               data.successful[crdate][1] += 1;
             } else {

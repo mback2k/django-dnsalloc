@@ -49,6 +49,7 @@ class Result(models.Model):
     status = models.CharField(_('status'), max_length=100)
     host = models.CharField(_('host'), max_length=15, blank=True, null=True)
     crdate = models.DateTimeField(_('date created'), auto_now_add=True)
+    successful = models.BooleanField(_('successful'))
     
     def __unicode__(self):
         return self.status

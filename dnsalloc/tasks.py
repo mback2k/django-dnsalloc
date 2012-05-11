@@ -45,12 +45,12 @@ def task_update_service(service_id):
             status = service.status
 
         if service.waiting or service.status != status:
-            Result.objects.create(service=service, status=status, host=host)
-
             service.enabled = False if status in ['notfqdn', 'nohost', 'numhost', 'abuse', 'badauth', '!donator'] else service.enabled
             service.waiting = False
             service.update = timezone.now()
             service.save()
+
+            Result.objects.create(service=service, status=status, host=host, successful=service.enabled)
 
         if not service.enabled:
             current_site = Site.objects.get_current()
