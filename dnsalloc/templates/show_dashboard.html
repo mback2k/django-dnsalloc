@@ -6,6 +6,7 @@
   {% if user.is_authenticated %}
   <li class="active"><strong>Dashboard</strong></li>
   {% endif %}
+  <li><a href="{% url 'dnsalloc.views.show_status' %}" title="Status">Status</a></li>
 {% endblock %}
 
 {% block content %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block navigation %}
+  <li><a href="{% url 'dnsalloc.views.show_home' %}" title="Home">Home</a></li>
+  {% if user.is_authenticated %}
+  <li><a href="{% url 'dnsalloc.views.show_dashboard' %}" title="Dashboard">Dashboard</a></li>
+  {% endif %}
+  <li class="active"><strong>Status</strong></li>
+{% endblock %}
+
+{% block content %}
+  <h3>Status History</h3>
+  <div class="highchart" id="status" href="{% url 'dnsalloc.methods.api_results' 'json' %}">
+    <noscript>
+      <div class="box warning">
+        <p>You need to enable JavaScript in order to see the status graph.</p>
+      </div>
+    </noscript>
+  </div>
+{% endblock %}

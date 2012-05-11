@@ -156,6 +156,11 @@ def delete_service_ask(request, service_id):
     return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
 
 
+def show_status(request):
+    template_values = {}
+    return render_to_response('show_status.html', template_values, context_instance=RequestContext(request))
+
+
 def feed_service(request, service_id):
     feed = ResultFeed()
     return feed(request, service_id)

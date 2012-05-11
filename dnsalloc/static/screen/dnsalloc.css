@@ -34,4 +34,12 @@
     background: none;
     margin-bottom: -2px;
   }
+
+  .ui-progressbar-value {
+    border: 1px solid #1B4376;
+    background-color: #60759E;
+    position: relative;
+    height: 10%;
+    top: 40%;
+  }
 }
