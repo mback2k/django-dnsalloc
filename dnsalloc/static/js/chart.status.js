@@ -1,8 +1,8 @@
 $(document).ready(function() {
-  $('.highchart').each(function(index, chart) {
+  $('.chart.status').each(function(index, chart) {
     chart = $(chart);
 
-    $.getJSON(chart.attr('href'), function(json) {
+    $.getJSON(chart.find('a').attr('href'), function(json) {
       chart.css('width', '100%').css('height', '400px').css('opacity', 0).progressbar({value: 0});
 
       var options = {
