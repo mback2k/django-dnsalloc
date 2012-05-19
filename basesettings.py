@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'djcelery',
+    'social_auth',
 
     'googleauth',
     'yamlcss',
@@ -104,6 +105,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'compressor',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 MIDDLEWARE_CLASSES = (
