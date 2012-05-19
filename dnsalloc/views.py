@@ -11,7 +11,19 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
 
+def check_social_auth(request):
+    if request.user.is_authenticated():
+        for social_auth in request.user.social_auth.all():
+            if social_auth.provider == 'google-oauth2':
+                return None
+        return HttpResponseRedirect(reverse('socialauth_begin', kwargs={'backend': 'google-oauth2'}))
+    return None
+
 def show_home(request):
+    check = check_social_auth(request)
+    if check:
+        return check
+
     users = User.objects.filter(is_active=True).count()
     services = Service.objects.filter(enabled=True).count()
 
