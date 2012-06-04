@@ -183,3 +183,5 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute='*/5'),
     },
 }
+
+GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
