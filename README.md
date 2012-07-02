@@ -8,7 +8,11 @@ Dependencies
 - django-celery      [https://github.com/ask/django-celery]
 - django_compressor  [https://github.com/jezdez/django_compressor]
 - django-fields      [https://github.com/svetlyak40wt/django-fields]
-- django-googleauth  [https://github.com/mback2k/django-googleauth]
+- django-social-auth [https://github.com/omab/django-social-auth]
+- django-appengine-auth [https://github.com/mback2k/django-appengine-auth]
+
+Submodules
+----------
 - django-jdatetime   [https://github.com/mback2k/django-jdatetime]
 - django-yamlcss     [https://github.com/mback2k/django-yamlcss]
 
