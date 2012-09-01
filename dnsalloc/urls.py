@@ -13,6 +13,7 @@ urlpatterns = patterns('dnsalloc.views',
     (r'^dashboard/service/(?P<service_id>\d+)/delete/ask/$', 'delete_service_ask'),
     (r'^status/$', 'show_status'),
     (r'^feed/service/(?P<service_id>\d+)/status/$', 'feed_service'),
+    (r'^login/$', 'redirect_login')
 )
 
 urlpatterns += patterns('dnsalloc.methods',

@@ -176,3 +176,7 @@ def show_status(request):
 def feed_service(request, service_id):
     feed = ResultFeed()
     return feed(request, service_id)
+
+def redirect_login(request):
+    from django.conf import settings
+    return HttpResponseRedirect(settings.LOGIN_URL)
