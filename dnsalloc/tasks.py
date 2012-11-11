@@ -1,13 +1,14 @@
 import socket
 import urllib2
 import datetime
-from celery.task import task
+from celery.schedules import crontab
+from celery.task import task, periodic_task
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from dnsalloc.models import Service, Result
 
-@task()
+@periodic_task(run_every=crontab(minute='*/5'))
 def task_start_worker():
     for service in Service.objects.filter(enabled=True):
         task_update_service.apply_async(args=[service.id])
