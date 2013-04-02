@@ -19,5 +19,7 @@ def api_results_last_modified(request, format='json'):
 def api_results(request, format='json'):
     if not format in ['xml', 'json', 'yaml']:
         return HttpResponseBadRequest()
+    Result.objects.filter(crdate__lt=timezone.now()-datetime.timedelta(days=7)).delete()
     results = Result.objects.order_by('-crdate')
-    return HttpResponse(serializers.serialize(format, results, fields=('successful', 'crdate')), mimetype='application/%s' % format)
+    output = serializers.serialize(format, results, fields=('successful', 'crdate'))
+    return HttpResponse(output, mimetype='application/%s' % format)

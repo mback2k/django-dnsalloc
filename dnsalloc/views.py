@@ -52,8 +52,6 @@ def show_service(request, service_id):
     services = Service.objects.filter(user=request.user).order_by('hostname')
     service = get_object_or_404(Service, user=request.user, id=service_id)
 
-    Result.objects.filter(crdate__lt=timezone.now()-datetime.timedelta(days=7)).delete()
-
     template_values = {
         'services': services,
         'service': service,
