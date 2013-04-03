@@ -56,7 +56,7 @@ def task_update_service(service_id):
 
         if not service.enabled:
             current_site = Site.objects.get_current()
-            edit_service = 'https://%s%s' % (current_site.domain, reverse('dnsalloc.views.edit_service', kwargs={'service_id': service.id}))
+            edit_service = 'https://%s%s' % (current_site.domain, reverse('dnsalloc:edit_service', kwargs={'service_id': service.id}))
 
             service.user.email_user('DNS Allocator - Update failure for %s - Action required!' % service.hostname,
                                     'DNS Allocator tried to update your host "%s", but failed to do so, because of the following error code:\n\n' \
