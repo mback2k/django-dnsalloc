@@ -1,6 +1,4 @@
-from celery.schedules import crontab
 import djcelery
-
 djcelery.setup_loader()
 
 from .base import *
