@@ -5,12 +5,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
-from django.utils import timezone
 from .forms import ServiceForm
 from .feeds import ResultFeed
 from .models import User, Service, Result
 from .tasks import task_update_service
-import datetime
 
 def check_social_auth(request):
     if request.user.is_authenticated():

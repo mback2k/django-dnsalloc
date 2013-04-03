@@ -11,7 +11,7 @@
 {% block content %}
   <h3>Status History</h3>
   <div class="chart status" id="chart_status">
-    <a href="{% url 'dnsalloc.apps.dnsalloc.methods.api_results' 'json' %}"></a>
+    <a href="{% url 'dnsalloc:api_results' 'json' %}"></a>
     <noscript>
       <div class="box warning">
         <p>You need to enable JavaScript in order to see the status graph.</p>

@@ -4,7 +4,9 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import condition
 from django.core import serializers
+from django.utils import timezone
 from .models import Result
+import datetime
 
 def api_results_etag(request, format='json'):
     if not format in ['xml', 'json', 'yaml']:
