@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from dnsalloc.models import Service
+from .models import Service
 
 class ServiceForm(forms.ModelForm):
     hostname = forms.RegexField(regex=r'^[\.\-a-zA-Z0-9]+$', required=True,

@@ -16,7 +16,7 @@ Submodules
 - django-jdatetime   [https://github.com/mback2k/django-jdatetime]
 - django-yamlcss     [https://github.com/mback2k/django-yamlcss]
 
-Message Broker 
+Message Broker (during development)
 --------------
 - Kombu              [http://pypi.python.org/pypi/kombu/]
 - django-kombu       [https://github.com/ask/django-kombu]
@@ -33,11 +33,11 @@ The following Django settings are required to run DNS Allocator:
 - DEFAULT_FROM_EMAIL
 - SECRET_KEY
 
-All other settings are pre-configured inside basesettings.py, which can be imported using the following line in your settings.py:
+All other settings are pre-configured inside settings/base.py, which can be imported using the following line in your settings/{env}.py:
 
-    from basesettings import *
+    from .base import *
 
-A basic development environment can be launched using the pre-configured devsettings.py.
+A basic development environment can be launched using the pre-configured settings/dev.py.
 
 Installation
 ------------
@@ -63,7 +63,7 @@ Please take a look at the [Django documentation](https://docs.djangoproject.com/
 
 You can run a development server using the following command:
 
-    python manage.py runserver --settings=devsettings
+    python manage.py runserver --settings=settings.dev
 
 Executing Tasks
 ---------------
@@ -75,4 +75,4 @@ You can do this by executing the following command from your server's shell:
 License
 -------
 * Released under MIT License
-* Copyright (c) 2012 Marc Hoersken <info@marc-hoersken.de>
+* Copyright (c) 2012-2013 Marc Hoersken <info@marc-hoersken.de>

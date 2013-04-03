@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
-from dnsalloc.models import Service, Result
+from .models import Service, Result
 
 class ServiceAdmin(admin.ModelAdmin):
     fields = ('user', 'hostname', 'services', 'enabled')

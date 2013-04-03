@@ -3,9 +3,9 @@
 {% block navigation %}
   <li class="active"><strong>Home</strong></li>
   {% if user.is_authenticated %}
-  <li><a href="{% url 'dnsalloc.views.show_dashboard' %}" title="Dashboard">Dashboard</a></li>
+  <li><a href="{% url 'dnsalloc:show_dashboard' %}" title="Dashboard">Dashboard</a></li>
   {% endif %}
-  <li><a href="{% url 'dnsalloc.views.show_status' %}" title="Status">Status</a></li>
+  <li><a href="{% url 'dnsalloc:show_status' %}" title="Status">Status</a></li>
 {% endblock %}
 
 {% block content %}

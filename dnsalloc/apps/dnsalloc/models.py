@@ -2,9 +2,9 @@
 from django.db import models
 from django.core.cache import cache
 from django.contrib.auth.models import User
-from dnsalloc.decorators import cache_property
 from django.utils.translation import ugettext_lazy as _
 from django_fields.fields import EncryptedCharField
+from .decorators import cache_property
 
 class Service(models.Model):
     user = models.ForeignKey(User)

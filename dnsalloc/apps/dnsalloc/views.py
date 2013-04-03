@@ -1,15 +1,16 @@
-import datetime
+# -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
-from dnsalloc.forms import ServiceForm
-from dnsalloc.feeds import ResultFeed
-from dnsalloc.models import User, Service, Result
-from dnsalloc.tasks import task_update_service
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
+from .forms import ServiceForm
+from .feeds import ResultFeed
+from .models import User, Service, Result
+from .tasks import task_update_service
+import datetime
 
 def check_social_auth(request):
     if request.user.is_authenticated():
@@ -88,7 +89,7 @@ def edit_service(request, service_id):
         service.user = request.user
         service.waiting = True
         service.save()
-        return HttpResponseRedirect(reverse('dnsalloc.views.show_service', kwargs={'service_id': service.id}))
+        return HttpResponseRedirect(reverse('dnsalloc:show_service', kwargs={'service_id': service.id}))
     
     template_values = {
         'services': services,

@@ -1,12 +1,13 @@
-import socket
-import urllib2
-import datetime
+# -*- coding: utf-8 -*-
 from celery.schedules import crontab
 from celery.task import task, periodic_task
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
-from dnsalloc.models import Service, Result
+from .models import Service, Result
+import datetime
+import urllib2
+import socket
 
 @periodic_task(run_every=crontab(minute='*/5'))
 def task_start_worker():

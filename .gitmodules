@@ -1,6 +1,6 @@
 [submodule "yamlcss"]
-	path = yamlcss
+	path = dnsalloc/libs/yamlcss
 	url = git://github.com/mback2k/django-yamlcss.git
 [submodule "jdatetime"]
-	path = jdatetime
+	path = dnsalloc/libs/jdatetime
 	url = git://github.com/mback2k/django-jdatetime.git
