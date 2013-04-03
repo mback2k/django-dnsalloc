@@ -46,9 +46,9 @@ It is recommended to perform the installations using the pip command.
 
 The next step is to get all source from github.com:
 
-    git clone git://github.com/mback2k/django-dnsalloc.git django_dnsalloc
+    git clone git://github.com/mback2k/django-dnsalloc.git dnsalloc
     
-    cd django_dnsalloc
+    cd dnsalloc
     
     git submodule init
     git submodule update
@@ -59,11 +59,11 @@ After that you need to collect and compress the static files using:
     python manage.py compress --force
 
 Now you need to setup your webserver to serve the Django project.
-Please take a look at the [Django documentation](https://docs.djangoproject.com/en/1.4/topics/install/) for more information.
+Please take a look at the [Django documentation](https://docs.djangoproject.com/en/1.5/topics/install/) for more information.
 
 You can run a development server using the following command:
 
-    python manage.py runserver --settings=settings.dev
+    python manage.py runserver
 
 Executing Tasks
 ---------------
