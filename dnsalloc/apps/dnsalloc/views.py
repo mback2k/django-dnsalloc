@@ -12,10 +12,8 @@ from .tasks import task_update_service
 
 def check_social_auth(request):
     if request.user.is_authenticated():
-        for social_auth in request.user.social_auth.all():
-            if social_auth.provider == 'google-oauth2':
-                return None
-        return HttpResponseRedirect(reverse('socialauth_begin', kwargs={'backend': 'google-oauth2'}))
+        if not request.user.social_auth.filter(provider='google-oauth2').count():
+            return HttpResponseRedirect(reverse('socialauth_begin', kwargs={'backend': 'google-oauth2'}))
     return None
 
 def show_home(request):
