@@ -4,7 +4,6 @@ from django.core.cache import cache
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django_fields.fields import EncryptedCharField
-from .decorators import cache_property
 
 class Service(models.Model):
     user = models.ForeignKey(User)
@@ -17,27 +16,27 @@ class Service(models.Model):
     update = models.DateTimeField(_('date updated'), blank=True, null=True)
     enabled = models.BooleanField(_('enabled'), default=True)
     waiting = models.BooleanField(_('waiting'), default=True)
-    
+
     def __unicode__(self):
         return self.hostname
-        
-    @cache_property
+
+    @property
     def status(self):
         return self.result.status
-        
-    @cache_property
+
+    @property
     def statusimg(self):
         return self.result.statusimg
 
-    @cache_property
+    @property
     def host(self):
         return self.result.host
 
-    @cache_property
+    @property
     def results(self):
         return self.result_set.order_by('-crdate')
-        
-    @cache_property
+
+    @property
     def result(self):
         if not self.waiting and self.result_set.count():
             return self.result_set.latest('crdate')
@@ -50,10 +49,10 @@ class Result(models.Model):
     host = models.CharField(_('host'), max_length=15, blank=True, null=True)
     crdate = models.DateTimeField(_('date created'), auto_now_add=True)
     successful = models.BooleanField(_('successful'))
-    
+
     def __unicode__(self):
         return self.status
-        
-    @cache_property
+
+    @property
     def statusimg(self):
         return self.status.split(' ')[0]
