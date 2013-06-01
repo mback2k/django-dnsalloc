@@ -2,6 +2,7 @@ import djcelery
 djcelery.setup_loader()
 
 from .base import *
+import os
 
 ROOT_URLCONF = 'dnsalloc.urls'
 
@@ -53,3 +54,6 @@ GOOGLE_APPENGINE_OAUTH_USE_UNIQUE_USER_ID = True
 
 GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'access_type': 'offline', 'approval_prompt': 'force'}
+
+GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID', '')
+GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET', '')
