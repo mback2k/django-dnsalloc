@@ -11,7 +11,7 @@ import socket
 @periodic_task(run_every=crontab(minute='*/5'))
 def task_start_worker():
     for service in Service.objects.filter(enabled=True):
-        task_query_service.apply_async(args=[service.id])
+        task_query_service.apply_async(args=[service.id], task_id='query-service-%d' % service.id)
 
 
 @task()
@@ -29,7 +29,7 @@ def task_query_service(service_id):
     except socket.gaierror:
         host = None
 
-    task_update_service.apply_async(args=[service.id, host])
+    task_update_service.apply_async(args=[service.id, host], task_id='update-service-%d' % service.id)
 
 
 @task()
@@ -57,7 +57,7 @@ def task_update_service(service_id, host):
     else:
         status = service.status
 
-    task_save_service.apply_async(args=[service.id, host, status])
+    task_save_service.apply_async(args=[service.id, host, status], task_id='save-service-%d' % service.id)
 
 
 @task()
