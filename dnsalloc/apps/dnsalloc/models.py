@@ -7,15 +7,15 @@ from django_fields.fields import EncryptedCharField
 
 class Service(models.Model):
     user = models.ForeignKey(User)
-    username = EncryptedCharField(_('username'), max_length=100, db_index=False)
-    password = EncryptedCharField(_('password'), max_length=100, db_index=False)
-    hostname = models.CharField(_('hostname'), max_length=100)
-    services = models.CharField(_('services'), max_length=100, blank=True, null=True)
-    crdate = models.DateTimeField(_('date created'), auto_now_add=True)
-    tstamp = models.DateTimeField(_('date edited'), auto_now=True)
-    update = models.DateTimeField(_('date updated'), blank=True, null=True)
-    enabled = models.BooleanField(_('enabled'), default=True)
-    waiting = models.BooleanField(_('waiting'), default=True)
+    username = EncryptedCharField(_('Username'), max_length=100, db_index=False)
+    password = EncryptedCharField(_('Password'), max_length=100, db_index=False)
+    hostname = models.CharField(_('Hostname'), max_length=100)
+    services = models.CharField(_('Services'), max_length=100, blank=True, null=True)
+    crdate = models.DateTimeField(_('Date created'), auto_now_add=True)
+    tstamp = models.DateTimeField(_('Date edited'), auto_now=True)
+    update = models.DateTimeField(_('Date updated'), blank=True, null=True)
+    enabled = models.BooleanField(_('Enabled'), default=True)
+    waiting = models.BooleanField(_('Waiting'), default=True)
 
     def __unicode__(self):
         return self.hostname
@@ -45,10 +45,10 @@ class Service(models.Model):
 
 class Result(models.Model):
     service = models.ForeignKey(Service)
-    status = models.CharField(_('status'), max_length=100)
-    host = models.CharField(_('host'), max_length=15, blank=True, null=True)
-    crdate = models.DateTimeField(_('date created'), auto_now_add=True)
-    successful = models.BooleanField(_('successful'))
+    status = models.CharField(_('Status'), max_length=100)
+    host = models.CharField(_('Host'), max_length=15, blank=True, null=True)
+    crdate = models.DateTimeField(_('Date created'), auto_now_add=True)
+    successful = models.BooleanField(_('Successful'))
 
     def __unicode__(self):
         return self.status
