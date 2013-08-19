@@ -8,7 +8,7 @@ from django.contrib import messages
 from .forms import ServiceForm
 from .feeds import ResultFeed
 from .models import User, Service, Result
-from .tasks import task_update_service
+from .tasks import task_query_service
 
 def check_social_auth(request):
     if request.user.is_authenticated():
@@ -119,7 +119,7 @@ def force_service(request, service_id):
     service.waiting = True
     service.save()
 
-    task_update_service.apply_async(args=[service.id])
+    task_query_service.apply_async(args=[service.id])
 
     messages.success(request, 'The service "%s" will be updated on next IP check!' % service)
 
