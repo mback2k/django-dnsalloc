@@ -15,10 +15,10 @@
   {% if service_edit_form %}
   <form action="{% url 'dnsalloc:edit_service' service.id %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
-    <h6>Edit DNS-O-Matic Service:</h6>
+    <h6 class="ym-fbox-heading">Edit DNS-O-Matic Service:</h6>
     {{ service_edit_form|yamlform }}
-    <div class="ym-fbox-button">
-      <input class="ym-button ym-save" type="submit" name="submit" value="Save Service" />
+    <div class="ym-fbox-footer ym-fbox-button">
+      <input class="ym-button ym-save ym-primary" type="submit" name="submit" value="Save Service" />
       <a class="ym-button ym-next" href="{% url 'dnsalloc:show_dashboard' %}" title="Go Back">Go Back</a>
     </div>
   </form>
@@ -79,12 +79,12 @@
   {% if service_create_form %}
   <form action="{% url 'dnsalloc:create_service' %}" method="post" class="ym-form ym-columnar">
     {% csrf_token %}
-    <h6>Create DNS-O-Matic Service:</h6>
+    <h6 class="ym-fbox-heading">Create DNS-O-Matic Service:</h6>
     {{ service_create_form|yamlform }}
     <blockquote><p class="highlight"><small>The usernames, passwords, or other login information will be available to this application!<br />
     The information is sent through a secure connection and is only used at the time an update is broadcasted.</small></p></blockquote>
-    <div class="ym-fbox-button">
-      <input class="ym-button ym-save" type="submit" name="submit" value="Create Service" />
+    <div class="ym-fbox-footer ym-fbox-button">
+      <input class="ym-button ym-save ym-primary" type="submit" name="submit" value="Create Service" />
     </div>
   </form>
   {% endif %}

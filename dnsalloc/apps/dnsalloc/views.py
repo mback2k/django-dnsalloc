@@ -152,7 +152,7 @@ def delete_service_ask(request, service_id):
     service = get_object_or_404(Service, user=request.user, id=service_id)
     create_form = ServiceForm()
 
-    button = '<a class="ym-button ym-delete float-right" href="%s" title="Yes">Yes</a>' % reverse('dnsalloc:delete_service', kwargs={'service_id': service_id})
+    button = '<a class="ym-button ym-delete ym-danger float-right" href="%s" title="Yes">Yes</a>' % reverse('dnsalloc:delete_service', kwargs={'service_id': service_id})
     messages.warning(request, '%sDo you want to delete service "%s"?' % (button, service))
 
     template_values = {
