@@ -1,9 +1,10 @@
-Django==1.6.5
-South==0.8.4
-celery==3.1.12
-django-appengine-auth==0.1.1dev
-django-celery==3.1.10
+Django==1.7
+South==1.0
+celery==3.1.15
+django-appengine-auth==0.1.3dev
+django-celery==3.1.15
 django-compressor==1.4
-django-fields==0.2.2
-django-redis==3.6.2
+django-fields==0.3.0
+django-redis==3.7.1
 django-social-auth==0.7.28
+pytz

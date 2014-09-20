@@ -25,4 +25,4 @@ def api_results(request, format='json'):
     Result.objects.filter(crdate__lt=timezone.now()-datetime.timedelta(days=7)).delete()
     results = Result.objects.order_by('-crdate')
     output = serializers.serialize(format, results, fields=('successful', 'crdate'))
-    return HttpResponse(output, mimetype='application/%s' % format)
+    return HttpResponse(output, content_type='application/%s' % format)

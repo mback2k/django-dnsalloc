@@ -48,7 +48,7 @@ class Result(models.Model):
     status = models.CharField(_('Status'), max_length=100)
     host = models.CharField(_('Host'), max_length=15, blank=True, null=True)
     crdate = models.DateTimeField(_('Date created'), auto_now_add=True)
-    successful = models.BooleanField(_('Successful'))
+    successful = models.BooleanField(_('Successful'), default=False)
 
     def __unicode__(self):
         return self.status
