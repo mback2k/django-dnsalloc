@@ -10,16 +10,16 @@ from .feeds import ResultFeed
 from .models import User, Service, Result
 from .tasks import task_query_service
 
-def check_social_auth(request):
+def migrate_social_auth(request):
     if request.user.is_authenticated():
-        if not request.user.social_auth.filter(provider='google-oauth2').count():
-            return HttpResponseRedirect(reverse('socialauth_begin', kwargs={'backend': 'google-oauth2'}))
-    return None
+        if not request.user.social_auth.filter(provider='google-oauth2').exists():
+            button = '<a class="ym-button ym-next ym-success float-right" href="%s" title="Migrate Account">Migrate Account</a>' % reverse('socialauth_begin', kwargs={'backend': 'google-oauth2'})
+            messages.info(request, '%sPlease migrate your account from Google App Engine to Google OAuth 2.0 for Login (OpenID Connect)' % button)
+            return True
+    return False
 
 def show_home(request):
-    check = check_social_auth(request)
-    if check:
-        return check
+    migrate_social_auth(request)
 
     users = User.objects.filter(is_active=True).count()
     services = Service.objects.filter(enabled=True).count()
@@ -34,6 +34,8 @@ def show_home(request):
 
 @login_required
 def show_dashboard(request):
+    migrate_social_auth(request)
+
     services = Service.objects.filter(user=request.user).order_by('hostname')
     create_form = ServiceForm()
 
