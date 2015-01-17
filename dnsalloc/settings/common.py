@@ -31,11 +31,12 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'appengine_auth.backends.GoogleAppEngineOAuthBackend',
+    'appengine_auth.backends.GoogleAppEngineOAuth2Backend',
     'social_auth.backends.google.GoogleOAuth2Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_BACKEND = 'google-appengine-oauth'
+LOGIN_BACKEND = 'google-appengine-oauth2'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = LOGIN_REDIRECT_URL
@@ -57,3 +58,8 @@ GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'access_type': 'offline', 'approval_prompt
 
 GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID', '')
 GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET', '')
+
+GOOGLE_APPENGINE_CLIENT_ID = GOOGLE_OAUTH2_CLIENT_ID
+GOOGLE_APPENGINE_CLIENT_SECRET = GOOGLE_OAUTH2_CLIENT_SECRET
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
