@@ -8,7 +8,7 @@ from .models import Service, Result
 import urllib2
 import socket
 
-@periodic_task(run_every=crontab(minute='*/5'))
+@periodic_task(run_every=crontab(minute='*/5+2'))
 def task_start_worker():
     for service in Service.objects.filter(enabled=True):
         task_query_service.apply_async(args=[service.id], task_id='query-service-%d' % service.id)
