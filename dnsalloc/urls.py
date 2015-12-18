@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'', include('dnsalloc.apps.dnsalloc.urls', namespace='dnsalloc')),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'', include('django.contrib.auth.urls')),
-    url(r'', include('social_auth.urls')),
 )
