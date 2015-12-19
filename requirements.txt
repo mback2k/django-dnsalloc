@@ -1,7 +1,7 @@
-Django==1.7.10
+Django==1.8.7
 celery==3.1.19
 django-celery==3.1.17
-django-compressor==1.5
+django-compressor==1.6
 django-fields==0.3.0
 django-redis==4.3.0
 python-social-auth==0.2.13
