@@ -44,14 +44,13 @@ Installation
 First of all you need to install all the dependencies.
 It is recommended to perform the installations using the pip command.
 
-The next step is to get all source from github.com:
+The next step is to get all source from github.com and PyPI:
 
-    git clone git://github.com/mback2k/django-dnsalloc.git dnsalloc
+    git clone --recursive git://github.com/mback2k/django-dnsalloc.git dnsalloc
     
     cd dnsalloc
     
-    git submodule init
-    git submodule update
+    pip install -r requirements.txt
 
 After that you need to collect and compress the static files using:
 
@@ -75,4 +74,4 @@ You can do this by executing the following command from your server's shell:
 License
 -------
 * Released under MIT License
-* Copyright (c) 2012-2013 Marc Hoersken <info@marc-hoersken.de>
+* Copyright (c) 2012-2016 Marc Hoersken <info@marc-hoersken.de>
