@@ -22,8 +22,8 @@ TEMPLATE_LOADERS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-INSTALLED_APPS += ('djkombu',)
-BROKER_TRANSPORT = 'djkombu.transport.DatabaseTransport'
+INSTALLED_APPS += ('kombu.transport.django',)
+BROKER_URL = 'django://'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'THIS_IS_A_DEVELOPMENT_KEY_WHICH_SHOULD_NOT_BE_USED_IN_PRODUCTION!'
