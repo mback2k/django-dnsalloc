@@ -1,4 +1,4 @@
-Django==1.8.10
+Django==1.8.11
 celery==3.1.21
 django-celery==3.1.17
 django-compressor==1.6
