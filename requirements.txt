@@ -1,9 +1,9 @@
-Django==1.8.15
+Django==1.8.16
 celery==3.1.24
 django-celery==3.1.17
-django-compressor==1.6
+django-compressor==2.1
 django-fields==0.3.0
-django-redis==4.3.0
-python-social-auth==0.2.13
+django-redis==4.6.0
+python-social-auth==0.2.21
 python-appengine-auth==0.1.dev0
 pytz
