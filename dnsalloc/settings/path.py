@@ -1,6 +1,6 @@
-import os
-import os.path
-import sys
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+import os, os.path, sys
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
