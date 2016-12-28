@@ -6,7 +6,7 @@ from django.conf import settings
 
 try:
     from django_fields.fields import EncryptedCharField
-except ImportError, e:
+except ImportError:
     from django.db.models import CharField as EncryptedCharField
 
 class Migration(migrations.Migration):
