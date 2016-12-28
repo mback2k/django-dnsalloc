@@ -7,7 +7,6 @@ Dependencies
 - Celery             [http://www.celeryproject.org/]
 - django-celery      [https://github.com/ask/django-celery]
 - django_compressor  [https://github.com/jezdez/django_compressor]
-- django-fields      [https://github.com/svetlyak40wt/django-fields]
 - python-social-auth [https://github.com/omab/python-social-auth]
 - python-appengine-auth [https://github.com/mback2k/python-appengine-auth]
 

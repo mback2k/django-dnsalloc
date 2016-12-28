@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
-import django_fields.fields
 
+try:
+    from django_fields.fields import EncryptedCharField
+except ImportError, e:
+    from django.db.models import CharField as EncryptedCharField
 
 class Migration(migrations.Migration):
 
@@ -30,8 +33,8 @@ class Migration(migrations.Migration):
             name='Service',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('username', django_fields.fields.EncryptedCharField(max_length=100, verbose_name='Username')),
-                ('password', django_fields.fields.EncryptedCharField(max_length=100, verbose_name='Password')),
+                ('username', EncryptedCharField(max_length=100, verbose_name='Username')),
+                ('password', EncryptedCharField(max_length=100, verbose_name='Password')),
                 ('hostname', models.CharField(max_length=100, verbose_name='Hostname')),
                 ('services', models.CharField(max_length=100, null=True, verbose_name='Services', blank=True)),
                 ('crdate', models.DateTimeField(auto_now_add=True, verbose_name='Date created')),

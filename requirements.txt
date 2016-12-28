@@ -3,7 +3,6 @@ celery[redis]==4.0.2
 django-celery-beat==1.0.1
 django-celery-results==1.0.1
 django-compressor==2.1
-django-fields==0.3.0
 django-redis==4.6.0
 python-social-auth==0.2.21
 python-appengine-auth==0.1.dev0

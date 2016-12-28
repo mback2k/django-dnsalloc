@@ -3,13 +3,12 @@ from django.db import models
 from django.core.cache import cache
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django_fields.fields import EncryptedCharField
 
 class Service(models.Model):
     user = models.ForeignKey(User)
-    username = EncryptedCharField(_('Username'), max_length=100, db_index=False)
-    password = EncryptedCharField(_('Password'), max_length=100, db_index=False)
-    hostname = models.CharField(_('Hostname'), max_length=100)
+    username = models.CharField(_('Username'), max_length=100, db_index=True)
+    password = models.CharField(_('Password'), max_length=100, db_index=False)
+    hostname = models.CharField(_('Hostname'), max_length=100, db_index=True)
     services = models.CharField(_('Services'), max_length=100, blank=True, null=True)
     crdate = models.DateTimeField(_('Date created'), auto_now_add=True)
     tstamp = models.DateTimeField(_('Date edited'), auto_now=True)
