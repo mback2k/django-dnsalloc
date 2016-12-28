@@ -5,7 +5,8 @@ Dependencies
 ------------
 - Django             [https://www.djangoproject.com/]
 - Celery             [http://www.celeryproject.org/]
-- django-celery      [https://github.com/ask/django-celery]
+- django-celery-beat [https://github.com/celery/django-celery-beat]
+- django-celery-results [https://github.com/celery/django-celery-results]
 - django_compressor  [https://github.com/jezdez/django_compressor]
 - python-social-auth [https://github.com/omab/python-social-auth]
 - python-appengine-auth [https://github.com/mback2k/python-appengine-auth]
@@ -56,7 +57,7 @@ After that you need to collect and compress the static files using:
     python manage.py compress --force
 
 Now you need to setup your webserver to serve the Django project.
-Please take a look at the [Django documentation](https://docs.djangoproject.com/en/1.5/topics/install/) for more information.
+Please take a look at the [Django documentation](https://docs.djangoproject.com/en/1.8/topics/install/) for more information.
 
 You can run a development server using the following command:
 
@@ -64,10 +65,11 @@ You can run a development server using the following command:
 
 Executing Tasks
 ---------------
-Besides running the webserver, you need to run celeryd and celerybeat.
-You can do this by executing the following command from your server's shell:
+Besides running the webserver, you need to run celery beat and celery worker.
+You can do this by executing the following commands from your server's shell:
 
-    python manage.py celeryd -B -E
+    celery -A dnsalloc beat
+    celery -A dnsalloc worker
 
 License
 -------
