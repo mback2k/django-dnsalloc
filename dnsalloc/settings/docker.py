@@ -18,16 +18,26 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'dnsalloc',
+    }
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 CELERY_BROKER_URL = 'redis://redis:6379/1'
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
-ALLOWED_HOSTS = ['dockerhost']
-DEFAULT_FROM_EMAIL = 'no-reply@dockerhost'
+ALLOWED_HOSTS = ['localhost']
+DEFAULT_FROM_EMAIL = 'no-reply@localhost'
 
 SESSION_COOKIE_NAME = 'dnsalloc'
-SESSION_COOKIE_DOMAIN = 'dockerhost'
+SESSION_COOKIE_DOMAIN = 'localhost'
 SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = True
 
