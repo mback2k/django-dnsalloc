@@ -16,7 +16,7 @@ class Service(models.Model):
     enabled = models.BooleanField(_('Enabled'), default=True)
     waiting = models.BooleanField(_('Waiting'), default=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.hostname
 
     @property
@@ -49,7 +49,7 @@ class Result(models.Model):
     crdate = models.DateTimeField(_('Date created'), auto_now_add=True)
     successful = models.BooleanField(_('Successful'), default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.status
 
     @property

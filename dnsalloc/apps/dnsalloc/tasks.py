@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from .models import Service, Result
-import urllib2
+import urllib
 import socket
 
 @periodic_task(run_every=crontab(minute='2,7,12,17,22,27,32,37,42,47,52,57'))
@@ -42,13 +42,14 @@ def task_update_service(service_id, host):
     if service.waiting or service.host != host:
         if host:
             try:
-                mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+                mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
                 mgr.add_password(None, 'https://updates.dnsomatic.com/nic/update', service.username, service.password)
 
-                result = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(mgr)).open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
+                opener = urllib.request.build_opener(urllib.request.HTTPBasicAuthHandler(mgr))
+                result = opener.open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
                 status = result.read().strip()
 
-            except urllib2.HTTPError as e:
+            except urllib.request.HTTPError as e:
                 status = 'badauth' if e.code == 401 else 'httperr %d' % e.code
 
         else:
