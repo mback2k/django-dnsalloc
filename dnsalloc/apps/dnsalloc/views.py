@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from .forms import ServiceForm
 from .feeds import ResultFeed
@@ -29,7 +29,7 @@ def show_home(request):
         'services': services,
     }
 
-    return render_to_response('show_home.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_home.html', template_values)
 
 
 @login_required
@@ -44,7 +44,7 @@ def show_dashboard(request):
         'service_create_form': create_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def show_service(request, service_id):
@@ -56,7 +56,7 @@ def show_service(request, service_id):
         'service': service,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def create_service(request):
@@ -74,7 +74,7 @@ def create_service(request):
         'service_create_form': create_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def edit_service(request, service_id):
@@ -95,7 +95,7 @@ def edit_service(request, service_id):
         'service_edit_form': edit_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def switch_service(request, service_id):
@@ -112,7 +112,7 @@ def switch_service(request, service_id):
         'service_create_form': create_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def force_service(request, service_id):
@@ -130,7 +130,7 @@ def force_service(request, service_id):
         'service': service,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def delete_service(request, service_id):
@@ -146,7 +146,7 @@ def delete_service(request, service_id):
         'service_create_form': create_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 @login_required
 def delete_service_ask(request, service_id):
@@ -162,12 +162,12 @@ def delete_service_ask(request, service_id):
         'service_create_form': create_form,
     }
 
-    return render_to_response('show_dashboard.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_dashboard.html', template_values)
 
 
 def show_status(request):
     template_values = {}
-    return render_to_response('show_status.html', template_values, context_instance=RequestContext(request))
+    return render(request, 'show_status.html', template_values)
 
 
 def feed_service(request, service_id):

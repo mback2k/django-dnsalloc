@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from . import views, methods
 
-urlpatterns = patterns('',
+urlpatterns = (
     url(r'^$', views.show_home, name='show_home'),
     url(r'^dashboard/$', views.show_dashboard, name='show_dashboard'),
     url(r'^dashboard/service/create/$', views.create_service, name='create_service'),
@@ -17,6 +17,6 @@ urlpatterns = patterns('',
     url(r'^login/$', views.redirect_login, name='redirect_login')
 )
 
-urlpatterns += patterns('',
+urlpatterns += (
     url(r'^api/restful/results\.(?P<format>\w+)$', methods.api_results, name='api_results'),
 )

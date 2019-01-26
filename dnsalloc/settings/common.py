@@ -16,7 +16,7 @@ INSTALLED_APPS = (
     'django_celery_beat',
     'django_celery_results',
 
-    'social.apps.django_app.default',
+    'social_django',
     'social_appengine_auth',
 
     'dnsalloc.libs.yamlcss',
