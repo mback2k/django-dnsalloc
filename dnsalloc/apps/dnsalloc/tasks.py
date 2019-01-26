@@ -17,11 +17,8 @@ def task_start_worker():
 @task()
 def task_query_service(service_id):
     try:
-        service = Service.objects.get(id=service_id)
+        service = Service.objects.get(id=service_id, enabled=True)
     except Service.DoesNotExist:
-        return
-
-    if not service.enabled:
         return
 
     try:
