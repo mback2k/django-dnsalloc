@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from celery.app import defaults as celery_defaults
 from .path import *
 
 DEBUG = False
@@ -79,10 +80,26 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse',
         },
     },
+    'formatters': {
+        'console_task': {
+            '()': 'celery.app.log.TaskFormatter',
+            'format': celery_defaults.DEFAULT_TASK_LOG_FMT,
+        },
+        'console': {
+            '()': 'celery.utils.log.ColorFormatter',
+            'format': celery_defaults.DEFAULT_PROCESS_LOG_FMT,
+        },
+    },
     'handlers': {
-        'stream': {
-            'level': 'WARNING',
+        'console_task': {
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'formatter': 'console_task',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -92,19 +109,28 @@ LOGGING = {
     },
     'loggers': {
         'celery.task': {
-            'handlers': ['stream', 'mail_admins'],
-            'level': 'WARNING',
+            'handlers': ['console_task', 'mail_admins'],
+            'level': 'INFO',
             'propagate': False,
         },
         'celery': {
-            'handlers': ['stream', 'mail_admins'],
+            'handlers': ['console', 'mail_admins'],
             'level': 'WARNING',
-            'propagate': True,
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': False,
         },
         'django': {
-            'handlers': ['stream', 'mail_admins'],
+            'handlers': ['console', 'mail_admins'],
             'level': 'WARNING',
-            'propagate': True,
+            'propagate': False,
         },
     },
+    'root': {
+        'handlers': ['console', 'mail_admins'],
+        'level': 'WARNING',
+    }
 }
