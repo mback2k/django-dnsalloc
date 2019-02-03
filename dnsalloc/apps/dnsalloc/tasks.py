@@ -44,7 +44,7 @@ def task_update_service(service_id, host):
 
                 opener = urllib.request.build_opener(urllib.request.HTTPBasicAuthHandler(mgr))
                 result = opener.open('https://updates.dnsomatic.com/nic/update?hostname=%s&myip=%s' % (service.services, host))
-                status = result.read().strip()
+                status = result.read().decode('utf-8').strip()
 
             except urllib.request.HTTPError as e:
                 status = 'badauth' if e.code == 401 else 'httperr %d' % e.code
