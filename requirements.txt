@@ -35,7 +35,7 @@ rjsmin==1.0.12
 rsa==4.0
 six==1.12.0
 social-auth-app-django==3.1.0
-social-auth-core[openidconnect]==2.0.0
+social-auth-core[openidconnect]==3.0.0
 urllib3==1.24.1
 vine==1.2.0
 whitenoise==4.1.2
