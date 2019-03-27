@@ -1,34 +1,34 @@
 -i https://pypi.org/simple
-amqp==2.4.0
+amqp==2.4.2
 billiard==3.5.0.5
 celery[redis]==4.2.1
-certifi==2018.11.29
+certifi==2019.3.9
 chardet==3.0.4
 defusedxml==0.5.0 ; python_version >= '3.0'
-django-appconf==1.0.2
+django-appconf==1.0.3
 django-celery-beat==1.4.0
 django-celery-results==1.0.4
 django-compressor==2.2
 django-redis==4.10.0
 django-timezone-field==3.0
-django==1.11.18
+django==1.11.20
 ecdsa==0.13
 future==0.17.1
 gunicorn==19.9.0
 idna==2.8
-kombu==4.2.2.post1
+kombu==4.4.0
 oauthlib==3.0.1
 pyasn1==0.4.5
 pyjwt==1.7.1
 python-appengine-auth==0.1.dev0
 python-crontab==2.3.6
-python-dateutil==2.7.5
+python-dateutil==2.8.0
 python-jose==3.0.1
 python-social-auth==0.3.6
 python3-openid==3.1.0 ; python_version >= '3.0'
 pytz==2018.9
 rcssmin==1.0.6
-redis==3.1.0
+redis==3.2.1
 requests-oauthlib==1.2.0
 requests==2.21.0
 rjsmin==1.0.12
@@ -37,5 +37,5 @@ six==1.12.0
 social-auth-app-django==3.1.0
 social-auth-core[openidconnect]==2.0.0
 urllib3==1.24.1
-vine==1.2.0
+vine==1.3.0
 whitenoise==4.1.2
